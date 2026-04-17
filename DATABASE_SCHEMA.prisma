@@ -1,0 +1,544 @@
+// Prisma Database Schema
+// For: MTU Admission Portal v1.0
+// Generated: April 17, 2026
+// Database: Google Cloud SQL (MySQL)
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ============================================
+// 👤 User & Authentication
+// ============================================
+
+model User {
+  id            String   @id @default(cuid())
+  firebaseUid   String   @unique
+  mobile        String   @unique
+  email         String?  @unique
+  role          UserRole @default(CANDIDATE)
+  name          String?
+  
+  // Relations
+  profile       Profile?
+  applications  Application[]
+  payments      Payment[]
+  documents     Document[]
+  auditLogs     AuditLog[]
+  
+  // Timestamps
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  lastLogin     DateTime?
+
+  @@index([firebaseUid])
+  @@index([mobile])
+  @@index([email])
+}
+
+enum UserRole {
+  CANDIDATE
+  ADMIN
+  HOD
+  EXAM_OFFICER
+  REGISTRAR
+  ACCOUNTS
+  SYSTEM_ADMIN
+}
+
+// ============================================
+// 📋 Candidate Profile
+// ============================================
+
+model Profile {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Personal Details
+  firstName       String
+  middleName      String?
+  lastName        String
+  dateOfBirth     DateTime
+  gender          String // Male, Female, Other
+  nationality     String @default("Indian")
+  
+  // Category (Affects fee and eligibility)
+  category        Category @default(GEN)
+  
+  // Address
+  presentAddress  String
+  presentCity     String
+  presentState    String
+  presentPincode  String
+  
+  permanentAddress String
+  permanentCity   String
+  permanentState  String
+  permanentPincode String
+  
+  // Parent/Guardian Details
+  fatherName      String?
+  motherName      String?
+  guardianMobile  String?
+  guardianEmail   String?
+  
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([userId])
+}
+
+enum Category {
+  GEN
+  OBC
+  SC
+  ST
+  PWD
+  IDP
+}
+
+// ============================================
+// 📝 Application Management
+// ============================================
+
+model Application {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Application Details
+  status          ApplicationStatus @default(DRAFT)
+  type            ApplicationType   @default(NONJEE)
+  
+  // Academic Details
+  class10Board    String?
+  class10Marks    Int?
+  class10Total    Int? @default(500)
+  class10Percent  Decimal? @db.Decimal(5, 2)
+  class10Year     String?
+  
+  class12Board    String?
+  class12Marks    Int?
+  class12Total    Int? @default(500)
+  class12Percent  Decimal? @db.Decimal(5, 2)
+  class12Year     String?
+  
+  // JEE Details (if applicable)
+  jeeScore        Int?
+  jeeRank         Int?
+  jeePercentile   Decimal? @db.Decimal(5, 2)
+  jeeRollNumber   String?
+  
+  // Course Preferences (1-5 priority)
+  preference1     String?
+  preference2     String?
+  preference3     String?
+  preference4     String?
+  preference5     String?
+  
+  // Admin Remarks
+  adminRemarks    String?
+  approvedBy      String?
+  rejectionReason String?
+  
+  // Relations
+  documents       Document[]
+  payment         Payment?
+  exam            Exam?
+  result          Result?
+  
+  // Timestamps
+  submittedAt     DateTime?
+  approvedAt      DateTime?
+  rejectedAt      DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([userId]) // One application per user per cycle
+  @@index([userId])
+  @@index([status])
+  @@index([type])
+  @@index([createdAt])
+}
+
+enum ApplicationStatus {
+  DRAFT             // Created but not submitted
+  SUBMITTED         // Submitted and paid, awaiting review
+  UNDER_REVIEW      // Being evaluated by admin
+  APPROVED          // Approved by admin
+  REJECTED          // Rejected with reason
+  EXAM_ELIGIBLE     // Eligible for exam (Non-JEE only)
+  RESULT_PUBLISHED  // Result declared
+}
+
+enum ApplicationType {
+  JEE
+  NONJEE
+  IDP
+}
+
+// ============================================
+// 📄 Document Management
+// ============================================
+
+model Document {
+  id              String   @id @default(cuid())
+  applicationId   String
+  application     Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Document Details
+  type            DocumentType
+  fileName        String
+  fileSize        Int    // In bytes
+  mimeType        String
+  
+  // Storage URLs
+  gcsOriginalUrl  String
+  gcsProcessedUrl String?
+  
+  // Verification
+  status          DocumentStatus @default(PENDING)
+  rejectionReason String?
+  verifiedBy      String?
+  verifiedAt      DateTime?
+  
+  // Timestamps
+  uploadedAt      DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([applicationId])
+  @@index([userId])
+  @@index([type])
+  @@index([status])
+}
+
+enum DocumentType {
+  CLASS_10_CERT
+  CLASS_10_MARKS
+  CLASS_12_MARKS
+  CATEGORY_CERT
+  JEE_SCORECARD
+  PASSPORT_PHOTO
+  SIGNATURE
+  DOMICILE_CERT
+}
+
+enum DocumentStatus {
+  PENDING     // Awaiting admin verification
+  VERIFIED    // Approved by admin
+  REJECTED    // Rejected with reason
+}
+
+// ============================================
+// 💳 Payment Management
+// ============================================
+
+model Payment {
+  id              String   @id @default(cuid())
+  applicationId   String   @unique
+  application     Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Payment Details
+  amount          Int     // In paise
+  category        Category
+  
+  // Razorpay Details
+  razorpayOrderId String  @unique
+  razorpayPaymentId String?
+  razorpaySignature String?
+  
+  // Status
+  status          PaymentStatus @default(PENDING)
+  
+  // Idempotency
+  idempotencyKey  String? @unique
+  
+  // Timestamps
+  initiatedAt     DateTime @default(now())
+  completedAt     DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([applicationId])
+  @@index([userId])
+  @@index([status])
+  @@index([razorpayOrderId])
+}
+
+enum PaymentStatus {
+  PENDING    // Awaiting payment
+  SUCCESS    // Payment successful
+  FAILED     // Payment failed
+  REFUNDED   // Refunded to candidate
+}
+
+// ============================================
+// 🧪 Examination Management
+// ============================================
+
+model Exam {
+  id              String   @id @default(cuid())
+  applicationId   String   @unique
+  application     Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  
+  // Exam Schedule
+  examDate        DateTime
+  examTime        String
+  examDuration    Int     // In minutes (default: 180)
+  examCenter      String
+  centerAddress   String?
+  
+  // Hall Ticket
+  hallTicketNumber String
+  hallTicketUrl   String?
+  
+  // Status
+  status          ExamStatus @default(SCHEDULED)
+  
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([applicationId])
+  @@index([examDate])
+  @@index([examCenter])
+}
+
+enum ExamStatus {
+  SCHEDULED    // Exam scheduled
+  ADMIT_CARD_ISSUED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+// ============================================
+// 📊 Result Management
+// ============================================
+
+model Result {
+  id              String   @id @default(cuid())
+  applicationId   String   @unique
+  application     Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  
+  // Subject Marks
+  mathematics     Int     @default(0) // Out of 30
+  physics         Int     @default(0) // Out of 30
+  chemistry       Int     @default(0) // Out of 20
+  english         Int     @default(0) // Out of 20
+  
+  // Calculated Fields
+  totalMarks      Int
+  percentageMarks Decimal @db.Decimal(5, 2)
+  
+  // Rank & Percentile
+  rankInCategory  Int?
+  nationalPercentile Decimal? @db.Decimal(5, 2)
+  
+  // Selection Status
+  selectionStatus SelectionStatus @default(NOT_SELECTED)
+  
+  // Result PDF
+  resultPdfUrl    String?
+  
+  // Status
+  status          ResultStatus @default(DRAFT)
+  publishedAt     DateTime?
+  
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([applicationId])
+  @@index([rankInCategory])
+  @@index([status])
+}
+
+enum ResultStatus {
+  DRAFT       // Marks entered but not published
+  PUBLISHED   // Published by registrar
+}
+
+enum SelectionStatus {
+  SELECTED
+  NOT_SELECTED
+  WAITLISTED
+}
+
+// ============================================
+// 📧 Notification & Audit
+// ============================================
+
+model Notification {
+  id              String   @id @default(cuid())
+  applicationId   String?
+  userId          String?
+  
+  // Notification Details
+  type            NotificationType
+  channel         NotificationChannel
+  recipient       String
+  
+  // Content
+  subject         String?
+  body            String
+  data            Json?
+  
+  // Status
+  status          NotificationStatus @default(PENDING)
+  sentAt          DateTime?
+  failureReason   String?
+  
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([applicationId])
+  @@index([userId])
+  @@index([type])
+  @@index([status])
+}
+
+enum NotificationType {
+  APPLICATION_SUBMITTED
+  PAYMENT_SUCCESS
+  APPLICATION_APPROVED
+  APPLICATION_REJECTED
+  ADMIT_CARD_READY
+  RESULT_PUBLISHED
+  EXAM_SCHEDULED
+}
+
+enum NotificationChannel {
+  EMAIL
+  SMS
+  IN_APP
+}
+
+enum NotificationStatus {
+  PENDING
+  SENT
+  FAILED
+  BOUNCED
+}
+
+// ============================================
+// 📝 Audit Trail
+// ============================================
+
+model AuditLog {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Action Details
+  action          String   // e.g., "approve_application", "reject_application"
+  resourceType    String   // e.g., "Application", "Payment"
+  resourceId      String
+  
+  // Changes
+  changesBefore   Json?
+  changesAfter    Json?
+  
+  // Request Context
+  ipAddress       String?
+  userAgent       String?
+  
+  // Timestamps
+  createdAt       DateTime @default(now())
+
+  @@index([userId])
+  @@index([resourceType])
+  @@index([resourceId])
+  @@index([action])
+  @@index([createdAt])
+}
+
+// ============================================
+// ⚙️ System Configuration
+// ============================================
+
+model SystemConfig {
+  id              String   @id @default(cuid())
+  
+  // Configuration
+  key             String   @unique
+  value           String
+  description     String?
+  type            String   // "string", "number", "boolean", "json"
+  
+  // Timestamps
+  updatedAt       DateTime @updatedAt
+
+  @@index([key])
+}
+
+// ============================================
+// 📍 Course & Center Management
+// ============================================
+
+model Course {
+  id              String   @id @default(cuid())
+  name            String   @unique
+  code            String   @unique
+  totalSeats      Int
+  description     String?
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model ExamCenter {
+  id              String   @id @default(cuid())
+  name            String
+  address         String
+  city            String
+  state           String
+  capacity        Int
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([city])
+}
+
+// ============================================
+// 🔄 Migration Guide
+// ============================================
+
+/*
+To initialize the database:
+
+1. Update DATABASE_URL in .env.local:
+   DATABASE_URL="mysql://user:password@localhost:3306/mtu_admissions"
+
+2. Run migrations:
+   npx prisma migrate dev --name init
+
+3. Generate Prisma Client:
+   npx prisma generate
+
+4. View database (optional):
+   npx prisma studio
+
+Useful Commands:
+- npx prisma migrate dev             # Create and apply migration
+- npx prisma migrate deploy          # Apply pending migrations
+- npx prisma db push                 # Push schema to database
+- npx prisma db seed                 # Run seed script
+- npx prisma studio                  # Open web UI for database
+*/
