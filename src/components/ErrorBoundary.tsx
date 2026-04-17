@@ -1,6 +1,6 @@
 import React, { ReactNode, ErrorInfo } from 'react';
 import { AlertCircle, RotateCw } from 'lucide-react';
-import { Button } from '../components/ui/button';
+import { Button } from '../app/components/ui/button';
 
 interface Props {
   children: ReactNode;
@@ -58,7 +58,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
               An unexpected error occurred. Please try again or contact support if the problem persists.
             </p>
 
-            {process.env.NODE_ENV === 'development' && this.state.error && (
+            {import.meta.env.DEV && this.state.error && (
               <div className="mb-6 p-4 bg-red-50 rounded border border-red-200">
                 <p className="text-sm font-mono text-red-800 break-words">
                   {this.state.error.toString()}
@@ -83,7 +83,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
               </Button>
             </div>
 
-            {process.env.NODE_ENV === 'development' && this.state.errorInfo && (
+            {import.meta.env.DEV && this.state.errorInfo && (
               <details className="mt-6 text-xs text-gray-500">
                 <summary className="cursor-pointer font-semibold mb-2">Error Details</summary>
                 <pre className="overflow-auto p-2 bg-gray-100 rounded max-h-40">

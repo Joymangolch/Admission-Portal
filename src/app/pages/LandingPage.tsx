@@ -4,10 +4,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../co
 import {
   GraduationCap,
   Calendar,
-  BookOpen,
-  DollarSign,
-  CheckCircle,
-  ArrowRight,
   Users,
   Award,
   Building
@@ -27,14 +23,11 @@ export function LandingPage() {
               Shape Your Future at Manipur Technical University
             </p>
             <p className="text-lg mb-10 text-blue-50">
-              Applications are now open for JEE & Non-JEE candidates
+              Start your application journey today
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg" className="bg-white text-[#1E3A8A] hover:bg-blue-50 text-lg px-8 py-6">
-                <Link to="/login">Apply Now</Link>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="bg-white text-[#1E3A8A] hover:bg-blue-50 text-lg px-8 py-6">
-                <Link to="/courses">View Courses</Link>
+                <Link to="/apply">Apply Now</Link>
               </Button>
             </div>
           </div>
@@ -54,7 +47,7 @@ export function LandingPage() {
             </div>
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-                <BookOpen className="w-8 h-8 text-[#1E3A8A]" />
+                <GraduationCap className="w-8 h-8 text-[#1E3A8A]" />
               </div>
               <h3 className="text-3xl font-bold text-gray-900 mb-2">15+</h3>
               <p className="text-gray-600">B.Tech Specializations</p>
@@ -78,153 +71,7 @@ export function LandingPage() {
       </section>
 
       {/* Admission Pathways */}
-      <section className="py-16 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Admission Pathways
-            </h2>
-            <p className="text-lg text-gray-600">Choose your path to MTU</p>
-          </div>
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <Card className="border-2 hover:border-[#1E3A8A] transition-all">
-              <CardHeader>
-                <CardTitle className="text-2xl">JEE Main Route</CardTitle>
-                <CardDescription>For JEE Main qualified candidates</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
-                  <span>Valid JEE Main score required</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
-                  <span>Merit-based seat allocation</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
-                  <span>All branches available</span>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-2 hover:border-[#1E3A8A] transition-all">
-              <CardHeader>
-                <CardTitle className="text-2xl">Direct Admission</CardTitle>
-                <CardDescription>For non-JEE candidates</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
-                  <span>Based on 10+2 marks (PCM)</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
-                  <span>Minimum 60% aggregate required</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
-                  <span>Subject to seat availability</span>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Courses Offered */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              B.Tech Programs Offered
-            </h2>
-            <p className="text-lg text-gray-600">Choose from our industry-aligned specializations</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              'Computer Science & Engineering',
-              'Electronics & Communication',
-              'Mechanical Engineering',
-              'Civil Engineering',
-              'Electrical Engineering',
-              'Information Technology',
-              'Chemical Engineering',
-              'Biotechnology',
-              'Artificial Intelligence & ML'
-            ].map((course) => (
-              <Card key={course} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <div className="flex items-start gap-3">
-                    <div className="p-2 bg-blue-100 rounded-lg">
-                      <GraduationCap className="w-6 h-6 text-[#1E3A8A]" />
-                    </div>
-                    <CardTitle className="text-lg">{course}</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-gray-600 mb-3">4 Years • 60 Seats</p>
-                  <Button variant="outline" className="w-full" asChild>
-                    <Link to="/courses">
-                      View Details <ArrowRight className="w-4 h-4 ml-2" />
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Fee Structure */}
-      <section className="py-16 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Fee Structure 2026
-            </h2>
-            <p className="text-lg text-gray-600">Transparent and affordable education</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <DollarSign className="w-5 h-5" />
-                  Tuition Fee
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-3xl font-bold text-[#1E3A8A]">₹65,000</p>
-                <p className="text-gray-600 mt-2">Per Year</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <DollarSign className="w-5 h-5" />
-                  Hostel Fee
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-3xl font-bold text-[#1E3A8A]">₹25,000</p>
-                <p className="text-gray-600 mt-2">Per Year (Optional)</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <DollarSign className="w-5 h-5" />
-                  Other Charges
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-3xl font-bold text-[#1E3A8A]">₹10,000</p>
-                <p className="text-gray-600 mt-2">One-time (Admission)</p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
+      {/* Section removed - now shown after Apply Now click */}
 
       {/* Important Dates */}
       <section className="py-16 bg-white">
@@ -270,7 +117,7 @@ export function LandingPage() {
             Join thousands of students building their careers at MTU
           </p>
           <Button asChild size="lg" className="bg-white text-[#1E3A8A] hover:bg-blue-50 text-lg px-8 py-6">
-            <Link to="/login">Start Your Application</Link>
+            <Link to="/apply">Start Your Application</Link>
           </Button>
         </div>
       </section>

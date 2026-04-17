@@ -15,20 +15,14 @@ export function PublicLayout() {
                 <p className="text-sm text-blue-200">Admission Portal 2026</p>
               </div>
             </Link>
-            <nav className="hidden md:flex items-center gap-6">
-              <Link to="/" className="hover:text-blue-200 transition-colors">
-                Home
-              </Link>
-              <Link to="/courses" className="hover:text-blue-200 transition-colors">
-                Courses
-              </Link>
-              <Link to="/fees" className="hover:text-blue-200 transition-colors">
-                Fee Structure
-              </Link>
-              <Link to="/login" className="bg-white text-[#1E3A8A] px-5 py-2 rounded-lg hover:bg-blue-50 transition-colors">
-                Login
-              </Link>
-            </nav>
+            {/* Desktop Login Button */}
+            <Link to="/login" className="hidden md:block bg-white text-[#1E3A8A] px-5 py-2 rounded-lg hover:bg-blue-50 transition-colors font-medium">
+              Login
+            </Link>
+            {/* Mobile Login Button */}
+            <Link to="/login" className="md:hidden bg-white text-[#1E3A8A] px-4 py-1.5 rounded-lg hover:bg-blue-50 transition-colors text-sm font-medium">
+              Login
+            </Link>
           </div>
         </div>
       </header>

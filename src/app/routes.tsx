@@ -3,6 +3,7 @@ import { PublicLayout } from './components/layouts/PublicLayout';
 import { DashboardLayout } from './components/layouts/DashboardLayout';
 import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
+import { AdmissionPathwayPage } from './pages/AdmissionPathwayPage';
 import { CandidateDashboard } from './pages/candidate/CandidateDashboard';
 import { ApplicationForm } from './pages/candidate/ApplicationForm';
 import { DocumentUpload } from './pages/candidate/DocumentUpload';
@@ -32,12 +33,8 @@ export const router = createBrowserRouter([
         element: <LandingPage />
       },
       {
-        path: 'courses',
-        element: <div className="container mx-auto py-12 px-4"><h1 className="text-3xl font-bold">Courses Page</h1></div>
-      },
-      {
-        path: 'fees',
-        element: <div className="container mx-auto py-12 px-4"><h1 className="text-3xl font-bold">Fee Structure Page</h1></div>
+        path: 'apply',
+        element: <AdmissionPathwayPage />
       }
     ]
   },
