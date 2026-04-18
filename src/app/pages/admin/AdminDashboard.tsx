@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../..
 import { Badge } from '../../components/ui/badge';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
+import { useNavigate } from 'react-router';
 import {
   Table,
   TableBody,
@@ -22,6 +23,7 @@ import {
 } from 'lucide-react';
 
 export function AdminDashboard() {
+  const navigate = useNavigate();
   const stats = [
     { label: 'Total Applications', value: '1,234', icon: Users, color: 'bg-blue-100 text-blue-600' },
     { label: 'Pending Review', value: '342', icon: Clock, color: 'bg-yellow-100 text-yellow-600' },
@@ -155,7 +157,7 @@ export function AdminDashboard() {
                   <TableCell>{new Date(app.date).toLocaleDateString()}</TableCell>
                   <TableCell>{getStatusBadge(app.status)}</TableCell>
                   <TableCell className="text-right">
-                    <Button variant="ghost" size="sm">View</Button>
+                    <Button variant="ghost" size="sm" onClick={() => navigate(`/admin/review/${app.id}`)}>View</Button>
                     <Button variant="ghost" size="sm">Edit</Button>
                   </TableCell>
                 </TableRow>
