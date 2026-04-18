@@ -93,7 +93,7 @@ export const router = createBrowserRouter([
         element: <div className="text-center py-12"><h2 className="text-2xl font-bold">Applications Management</h2></div>
       },
       {
-        path: 'review',
+        path: 'review/:id',
         element: <ApplicationReviewPage />
       },
       {

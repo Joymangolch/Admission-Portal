@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import { Badge } from '../../components/ui/badge';
@@ -30,15 +30,9 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 
-export function ApplicationReviewPage() {
-  const navigate = useNavigate();
-  const [rejectionReason, setRejectionReason] = useState('');
-  const [adminNotes, setAdminNotes] = useState('');
-  const [showRejectDialog, setShowRejectDialog] = useState(false);
-  const [reviewStatus, setReviewStatus] = useState<'pending' | 'approved' | 'rejected' | 'flagged'>('pending');
-
-  // Mock candidate data
-  const candidateData = {
+// Mock candidate data for all applications
+const applicationsData: Record<string, any> = {
+  'MTU2026001': {
     id: 'MTU2026001',
     name: 'Rahul Sharma',
     email: 'rahul.sharma@example.com',
@@ -70,7 +64,149 @@ export function ApplicationReviewPage() {
       { name: 'Aadhar Card', status: 'verified', url: '#' },
       { name: 'Caste Certificate', status: 'pending', url: '#' }
     ]
-  };
+  },
+  'MTU2026002': {
+    id: 'MTU2026002',
+    name: 'Priya Singh',
+    email: 'priya.singh@example.com',
+    phone: '+91-9876543211',
+    category: 'GEN',
+    status: 'submitted',
+    submissionDate: '2026-04-15',
+    personalDetails: {
+      dob: '2008-03-22',
+      gender: 'Female',
+      address: '456, Summer Avenue, Mumbai, 400001'
+    },
+    academicDetails: {
+      class10Board: 'ICSE',
+      class10Marks: '480/500',
+      class10Percentage: '96%',
+      class12Board: 'ICSE',
+      class12Marks: '485/500',
+      class12Percentage: '97%'
+    },
+    jeeDetails: {
+      rank: 1245,
+      percentile: '99.2%'
+    },
+    documents: [
+      { name: '10th Certificate', status: 'verified', url: '#' },
+      { name: '12th Certificate', status: 'verified', url: '#' },
+      { name: 'JEE Scorecard', status: 'verified', url: '#' },
+      { name: 'Aadhar Card', status: 'verified', url: '#' }
+    ]
+  },
+  'MTU2026003': {
+    id: 'MTU2026003',
+    name: 'Amit Kumar',
+    email: 'amit.kumar@example.com',
+    phone: '+91-9876543212',
+    category: 'SC',
+    status: 'submitted',
+    submissionDate: '2026-04-14',
+    personalDetails: {
+      dob: '2008-07-10',
+      gender: 'Male',
+      address: '789, Tech Park, Bangalore, 560001'
+    },
+    academicDetails: {
+      class10Board: 'CBSE',
+      class10Marks: '470/500',
+      class10Percentage: '94%',
+      class12Board: 'CBSE',
+      class12Marks: '465/500',
+      class12Percentage: '93%'
+    },
+    jeeDetails: {
+      rank: 3567,
+      percentile: '97.8%'
+    },
+    documents: [
+      { name: '10th Certificate', status: 'verified', url: '#' },
+      { name: '12th Certificate', status: 'verified', url: '#' },
+      { name: 'JEE Scorecard', status: 'verified', url: '#' },
+      { name: 'Aadhar Card', status: 'pending', url: '#' },
+      { name: 'SC Certificate', status: 'verified', url: '#' }
+    ]
+  },
+  'MTU2026004': {
+    id: 'MTU2026004',
+    name: 'Sneha Patel',
+    email: 'sneha.patel@example.com',
+    phone: '+91-9876543213',
+    category: 'OBC',
+    status: 'submitted',
+    submissionDate: '2026-04-14',
+    personalDetails: {
+      dob: '2008-05-18',
+      gender: 'Female',
+      address: '321, Riverside Road, Ahmedabad, 380001'
+    },
+    academicDetails: {
+      class10Board: 'CBSE',
+      class10Marks: '485/500',
+      class10Percentage: '97%',
+      class12Board: 'CBSE',
+      class12Marks: '490/500',
+      class12Percentage: '98%'
+    },
+    jeeDetails: {
+      rank: 1900,
+      percentile: '98.9%'
+    },
+    documents: [
+      { name: '10th Certificate', status: 'verified', url: '#' },
+      { name: '12th Certificate', status: 'verified', url: '#' },
+      { name: 'JEE Scorecard', status: 'verified', url: '#' },
+      { name: 'Aadhar Card', status: 'verified', url: '#' },
+      { name: 'OBC Certificate', status: 'pending', url: '#' }
+    ]
+  },
+  'MTU2026005': {
+    id: 'MTU2026005',
+    name: 'Ravi Verma',
+    email: 'ravi.verma@example.com',
+    phone: '+91-9876543214',
+    category: 'GEN',
+    status: 'submitted',
+    submissionDate: '2026-04-13',
+    personalDetails: {
+      dob: '2008-02-28',
+      gender: 'Male',
+      address: '654, Green Valley, Pune, 411001'
+    },
+    academicDetails: {
+      class10Board: 'State Board',
+      class10Marks: '475/500',
+      class10Percentage: '95%',
+      class12Board: 'State Board',
+      class12Marks: '480/500',
+      class12Percentage: '96%'
+    },
+    jeeDetails: {
+      rank: 2100,
+      percentile: '98.7%'
+    },
+    documents: [
+      { name: '10th Certificate', status: 'verified', url: '#' },
+      { name: '12th Certificate', status: 'verified', url: '#' },
+      { name: 'JEE Scorecard', status: 'verified', url: '#' },
+      { name: 'Aadhar Card', status: 'verified', url: '#' }
+    ]
+  }
+};
+
+export function ApplicationReviewPage() {
+  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
+  const [rejectionReason, setRejectionReason] = useState('');
+  const [adminNotes, setAdminNotes] = useState('');
+  const [showRejectDialog, setShowRejectDialog] = useState(false);
+  const [reviewStatus, setReviewStatus] = useState<'pending' | 'approved' | 'rejected' | 'flagged'>('pending');
+
+  // Get candidate data based on URL parameter
+  const candidateData = applicationsData[id || 'MTU2026001'] || applicationsData['MTU2026001'];
 
   const handleApprove = () => {
     setReviewStatus('approved');
