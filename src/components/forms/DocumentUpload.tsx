@@ -96,7 +96,7 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
       </div>
 
       {/* Actions (Right Aligned) */}
-      <div className="flex items-center gap-2 flex-shrink-0">
+      <div className="flex items-center gap-2 shrink-0">
         {uploading ? (
           <div className="flex items-center gap-1.5 text-[10px] font-bold text-primary animate-pulse">
             <Loader2 size={12} className="animate-spin" aria-hidden="true" />

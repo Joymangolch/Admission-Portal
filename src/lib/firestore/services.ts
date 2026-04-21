@@ -1,6 +1,12 @@
 import { adminDb } from "@/lib/firebase/admin";
 import { FieldValue, Timestamp } from "firebase-admin/firestore";
-import { UserProfile, Application, ApplicationStatus } from "@/types";
+import { UserProfile, Application, ApplicationStatus, PaymentStatus } from "@/types";
+import {
+  canEditApplication,
+  canStartPayment,
+  getPortalSettings,
+  isApplicationPaid,
+} from "@/lib/portal/settings";
 
 /**
  * Helper to serialize Firestore data for Client Components
@@ -80,9 +86,11 @@ export async function ensureUserAndApplication(uid: string, email: string, name:
       userId: uid,
       applicationNumber,
       status: "DRAFT",
+      paymentStatus: "NOT_STARTED",
       currentStep: 1,
       stepsCompleted: [],
       formData: {},
+      paymentAttempts: 0,
       createdAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp(),
     };
@@ -107,9 +115,11 @@ export async function ensureUserAndApplication(uid: string, email: string, name:
       userId: uid,
       applicationNumber,
       status: "DRAFT",
+      paymentStatus: "NOT_STARTED",
       currentStep: 1,
       stepsCompleted: [],
       formData: {},
+      paymentAttempts: 0,
       createdAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp(),
     } as Application;
@@ -158,6 +168,12 @@ export async function saveApplicationStep(applicationId: string, step: number, d
   if (!appSnap.exists) throw new Error("Application not found");
   
   const currentApp = appSnap.data() as Application;
+  const portalSettings = await getPortalSettings();
+
+  if (!canEditApplication(currentApp, portalSettings)) {
+    throw new Error("Application is locked and can no longer be edited");
+  }
+
   const stepsCompleted = Array.from(new Set([...(currentApp.stepsCompleted || []), step]));
   
   await appRef.update({
@@ -176,6 +192,148 @@ export async function updateApplicationStatus(applicationId: string, status: App
   await appRef.update({
     status,
     updatedAt: FieldValue.serverTimestamp(),
+  });
+}
+
+export async function assertApplicationCanStartPayment(applicationId: string) {
+  const app = await getApplicationById(applicationId);
+  if (!app) {
+    throw new Error("Application not found");
+  }
+
+  const portalSettings = await getPortalSettings();
+  if (!canStartPayment(app, portalSettings)) {
+    throw new Error("Payment window has closed or the application is already paid");
+  }
+
+  return app;
+}
+
+/**
+ * Helper to remove undefined values from payment history entries before Firestore storage
+ * Firestore does not allow undefined values in documents
+ */
+function cleanPaymentHistoryEntry(entry: any) {
+  return Object.fromEntries(
+    Object.entries(entry).filter(([_, value]) => value !== undefined)
+  );
+}
+
+export async function recordPaymentAttempt(applicationId: string, payment: {
+  orderId: string;
+  amount: number;
+  status: PaymentStatus;
+  paymentId?: string;
+  error?: string;
+}) {
+  const appRef = adminDb.collection("applications").doc(applicationId);
+  const appSnap = await appRef.get();
+
+  if (!appSnap.exists) throw new Error("Application not found");
+
+  const currentApp = appSnap.data() as Application;
+  const paymentHistory = [
+    ...(currentApp.paymentHistory || []),
+    cleanPaymentHistoryEntry({
+      orderId: payment.orderId,
+      paymentId: payment.paymentId,
+      amount: payment.amount,
+      status: payment.status,
+      error: payment.error,
+      createdAt: new Date(),
+    }),
+  ];
+
+  await appRef.update({
+    paymentStatus: payment.status,
+    lastPaymentOrderId: payment.orderId,
+    paymentOrderId: payment.orderId,
+    paymentAmount: payment.amount,
+    paymentAttempts: (currentApp.paymentAttempts || 0) + 1,
+    paymentHistory,
+    updatedAt: FieldValue.serverTimestamp(),
+  });
+}
+
+export async function finalizePaymentSuccess(applicationId: string, payment: {
+  orderId: string;
+  paymentId: string;
+  amount: number;
+}) {
+  const appRef = adminDb.collection("applications").doc(applicationId);
+  return await adminDb.runTransaction(async (transaction: any) => {
+    const appSnap = await transaction.get(appRef);
+
+    if (!appSnap.exists) throw new Error("Application not found");
+
+    const currentApp = appSnap.data() as Application;
+    if (isApplicationPaid(currentApp) && currentApp.paymentId === payment.paymentId) {
+      return {
+        application: serialize({ ...currentApp, id: appSnap.id } as Application),
+        isNewlyFinalized: false,
+      };
+    }
+
+    const paymentHistory = [
+      ...(currentApp.paymentHistory || []),
+      cleanPaymentHistoryEntry({
+        orderId: payment.orderId,
+        paymentId: payment.paymentId,
+        amount: payment.amount,
+        status: "SUCCESS" as PaymentStatus,
+        createdAt: new Date(),
+        verifiedAt: new Date(),
+      }),
+    ];
+
+    const updatedApplication = {
+      ...currentApp,
+      status: "PAID" as ApplicationStatus,
+      paymentStatus: "SUCCESS" as PaymentStatus,
+      paymentId: payment.paymentId,
+      lastPaymentOrderId: payment.orderId,
+      paymentOrderId: payment.orderId,
+      paymentAmount: payment.amount,
+      paymentCompletedAt: FieldValue.serverTimestamp(),
+      paymentVerifiedAt: FieldValue.serverTimestamp(),
+      pdfUrl: "/api/application/pdf",
+      pdfGeneratedAt: FieldValue.serverTimestamp(),
+      paymentHistory,
+      updatedAt: FieldValue.serverTimestamp(),
+    } as Application;
+
+    transaction.update(appRef, {
+      status: updatedApplication.status,
+      paymentStatus: updatedApplication.paymentStatus,
+      paymentId: updatedApplication.paymentId,
+      lastPaymentOrderId: updatedApplication.lastPaymentOrderId,
+      paymentOrderId: updatedApplication.paymentOrderId,
+      paymentAmount: updatedApplication.paymentAmount,
+      paymentCompletedAt: updatedApplication.paymentCompletedAt,
+      paymentVerifiedAt: updatedApplication.paymentVerifiedAt,
+      pdfUrl: updatedApplication.pdfUrl,
+      pdfGeneratedAt: updatedApplication.pdfGeneratedAt,
+      paymentHistory: updatedApplication.paymentHistory,
+      updatedAt: updatedApplication.updatedAt,
+    });
+
+    return {
+      application: serialize({ ...updatedApplication, id: appSnap.id } as Application),
+      isNewlyFinalized: true,
+    };
+  });
+}
+
+export async function markPaymentFailure(applicationId: string, payment: {
+  orderId: string;
+  amount: number;
+  error?: string;
+}) {
+  await recordPaymentAttempt(applicationId, {
+    orderId: payment.orderId,
+    amount: payment.amount,
+    status: "FAILED",
+    error: payment.error,
   });
 }
 

@@ -8,6 +8,19 @@ export type ApplicationStatus =
   | "EXAM_ELIGIBLE" 
   | "RESULT_PUBLISHED";
 
+export type PaymentStatus =
+  | "NOT_STARTED"
+  | "PENDING"
+  | "FAILED"
+  | "SUCCESS";
+
+export interface PortalSettings {
+  applicationCloseAt: string;
+  correctionCloseAt: string;
+  paymentCloseAt: string;
+  allowEditsAfterPayment: boolean;
+}
+
 export interface UserProfile {
   uid: string;
   email: string;
@@ -21,12 +34,29 @@ export interface Application {
   userId: string;
   applicationNumber: string;
   status: ApplicationStatus;
+  paymentStatus?: PaymentStatus;
   currentStep: number;
   stepsCompleted: number[];
   formData: Record<string, any>;
   documents?: Record<string, string>;
+  paymentAttempts?: number;
+  lastPaymentOrderId?: string;
+  paymentOrderId?: string;
+  paymentAmount?: number;
   paymentId?: string;
+  paymentCompletedAt?: any;
+  paymentVerifiedAt?: any;
+  paymentHistory?: Array<{
+    orderId: string;
+    paymentId?: string;
+    amount: number;
+    status: PaymentStatus;
+    createdAt?: any;
+    verifiedAt?: any;
+    error?: string;
+  }>;
   pdfUrl?: string;
+  pdfGeneratedAt?: any;
   rejectionReason?: string;
   createdAt: any;
   updatedAt: any;

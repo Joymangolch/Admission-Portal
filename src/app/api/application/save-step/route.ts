@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminAuth } from "@/lib/firebase/admin";
-import { saveApplicationStep } from "@/lib/firestore/services";
+import { getApplicationById, saveApplicationStep } from "@/lib/firestore/services";
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,6 +20,15 @@ export async function POST(request: NextRequest) {
 
     if (!applicationId || !step || !data) {
       return NextResponse.json({ success: false, error: "Missing required fields" }, { status: 400 });
+    }
+
+    const application = await getApplicationById(applicationId);
+    if (!application) {
+      return NextResponse.json({ success: false, error: "Application not found" }, { status: 404 });
+    }
+
+    if (application.userId !== decodedToken.uid) {
+      return NextResponse.json({ success: false, error: "Access denied" }, { status: 403 });
     }
 
     await saveApplicationStep(applicationId, step, data);

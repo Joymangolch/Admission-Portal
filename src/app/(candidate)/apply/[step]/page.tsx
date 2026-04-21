@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { adminAuth } from "@/lib/firebase/admin";
 import { getApplicationByUserId } from "@/lib/firestore/services";
+import { canEditApplication, getPortalSettings } from "@/lib/portal/settings";
 import { cookies } from "next/headers";
 import {
   PersonalDetailsStep,
@@ -101,6 +102,12 @@ export default async function StepPage({
   const application = await getApplicationByUserId(uid!);
   if (!application) redirect("/candidate/dashboard");
 
+  const portalSettings = await getPortalSettings();
+
+  if (!canEditApplication(application, portalSettings)) {
+    redirect("/candidate/dashboard");
+  }
+
   if (step > application.currentStep && step !== 1) {
     redirect(`/apply/${application.currentStep}`);
   }
@@ -169,7 +176,7 @@ export default async function StepPage({
       <div className="gov-notice gov-notice-info flex items-start gap-3">
         <Info
           size={16}
-          className="flex-shrink-0 mt-0.5"
+          className="shrink-0 mt-0.5"
           aria-hidden="true"
           style={{ color: "var(--gov-navy)" }}
         />
@@ -199,7 +206,18 @@ function renderStep(step: number, application: any) {
     case 3: return <AddressDetailsStep applicationId={application.id} initialData={data} />;
     case 4: return <EducationDetailsStep applicationId={application.id} initialData={data} />;
     case 5: return <CoursePreferencesStep applicationId={application.id} initialData={data} />;
-    case 6: return <DocumentsStep applicationId={application.id} initialData={data} />;
+    case 6: {
+      const category = application.formData?.step1?.category;
+      const isJEECandidate = application.formData?.step4?.isJEECandidate;
+      return (
+        <DocumentsStep 
+          applicationId={application.id} 
+          initialData={data} 
+          category={category}
+          isJEECandidate={isJEECandidate}
+        />
+      );
+    }
     case 7: return <PreviewStep applicationId={application.id} application={application} />;
     case 8: return <DeclarationStep applicationId={application.id} />;
     case 9: return <PaymentStep applicationId={application.id} application={application} />;

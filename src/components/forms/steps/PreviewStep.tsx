@@ -10,9 +10,11 @@ import { FormCard, StepActions, FormGrid } from "@/components/ui";
 export function PreviewStep({
   applicationId,
   application,
+  readOnly = false,
 }: {
   applicationId: string;
   application: any;
+  readOnly?: boolean;
 }) {
   const router = useRouter();
   const [isSaving, setIsSaving] = useState(false);
@@ -38,15 +40,17 @@ export function PreviewStep({
           <div className="flex items-start gap-3">
             <AlertTriangle
               size={20}
-              className="flex-shrink-0 mt-0.5 text-primary"
+              className="shrink-0 mt-0.5 text-primary"
               aria-hidden="true"
             />
             <div>
               <p className="font-bold text-sm uppercase tracking-tight text-primary">
-                Review Your Application
+                {readOnly ? "Finalized Application Record" : "Review Your Application"}
               </p>
               <p className="text-xs text-slate-500 mt-0.5">
-                Review all information before final submission. Changes are not allowed after payment.
+                {readOnly 
+                  ? "This is a read-only record of your submitted application. No further edits are permitted." 
+                  : "Review all information before final submission. Changes are not allowed after payment."}
               </p>
             </div>
           </div>
@@ -68,30 +72,35 @@ export function PreviewStep({
           step={1}
           data={formData.step1}
           router={router}
+          readOnly={readOnly}
         />
         <PreviewSection
           title="Parent Details"
           step={2}
           data={formData.step2}
           router={router}
+          readOnly={readOnly}
         />
         <PreviewSection
           title="Address Details"
           step={3}
           data={formData.step3}
           router={router}
+          readOnly={readOnly}
         />
         <PreviewSection
           title="Academic Qualification"
           step={4}
           data={formData.step4}
           router={router}
+          readOnly={readOnly}
         />
         <PreviewSection
           title="Course Preferences"
           step={5}
           data={formData.step5}
           router={router}
+          readOnly={readOnly}
         />
         <PreviewSection
           title="Uploaded Documents"
@@ -99,15 +108,18 @@ export function PreviewStep({
           data={formData.step6?.documents}
           isDocuments
           router={router}
+          readOnly={readOnly}
         />
       </div>
  
-      <StepActions
-        onBack={() => router.push("/apply/6")}
-        primaryLabel="Continue to Declaration"
-        onPrimary={handleContinue}
-        isLoading={isSaving}
-      />
+      {!readOnly && (
+        <StepActions
+          onBack={() => router.push("/apply/6")}
+          primaryLabel="Continue to Declaration"
+          onPrimary={handleContinue}
+          isLoading={isSaving}
+        />
+      )}
     </div>
   );
 }
@@ -119,12 +131,14 @@ function PreviewSection({
   data,
   isDocuments,
   router,
+  readOnly,
 }: {
   title: string;
   step: number;
   data: any;
   isDocuments?: boolean;
   router: ReturnType<typeof useRouter>;
+  readOnly?: boolean;
 }) {
   if (!data) return null;
  
@@ -134,13 +148,15 @@ function PreviewSection({
       title={title}
       className="relative"
     >
-      <button
-        type="button"
-        onClick={() => router.push(`/apply/${step}`)}
-        className="absolute top-4 right-5 text-[10px] font-black text-primary hover:underline uppercase tracking-widest"
-      >
-        Edit
-      </button>
+      {!readOnly && (
+        <button
+          type="button"
+          onClick={() => router.push(`/apply/${step}`)}
+          className="absolute top-4 right-5 text-[10px] font-black text-primary hover:underline uppercase tracking-widest"
+        >
+          Edit
+        </button>
+      )}
  
       <FormGrid cols={3}>
         {Object.entries(data).map(([key, value]) => (

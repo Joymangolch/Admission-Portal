@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────
@@ -75,7 +75,7 @@
   --color-ring: var(--gov-navy);
   --color-destructive: var(--gov-red);
 
-  --font-sans: 'Open Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
 }
 
 /* ─────────────────────────────────────────
@@ -87,15 +87,15 @@
 
 html {
   height: 100%;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 body {
   min-height: 100%;
   background-color: var(--gov-bg);
   color: var(--gov-text-primary);
-  font-family: 'Open Sans', ui-sans-serif, system-ui, sans-serif;
-  font-size: 0.9375rem;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-size: 1rem;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -172,14 +172,14 @@ body {
   background-color: var(--gov-input-bg);
   border: 1px solid var(--gov-input-border);
   border-radius: var(--gov-radius);
-  padding: 0.5rem 0.75rem; /* ~40-44px total height with line-height */
+  padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
-  font-family: 'Open Sans', ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
   color: var(--gov-text-primary);
   transition: border-color 0.15s, box-shadow 0.15s;
   outline: none;
   line-height: 1.5;
-  height: 42px; /* Fix height per rule */
+  height: 42px;
 }
 
 .gov-input:focus {
@@ -214,7 +214,7 @@ body {
   border-radius: var(--gov-radius);
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
-  font-family: 'Open Sans', ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
   color: var(--gov-text-primary);
   transition: border-color 0.15s, box-shadow 0.15s;
   outline: none;
@@ -238,10 +238,10 @@ body {
   padding: 0.6875rem 1.75rem;
   background-color: var(--gov-navy);
   color: #ffffff;
-  font-size: 0.8125rem;
-  font-weight: 700;
-  font-family: 'Open Sans', ui-sans-serif, system-ui, sans-serif;
-  letter-spacing: 0.02em;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: 0.01em;
   border: none;
   border-radius: var(--gov-radius);
   cursor: pointer;
@@ -279,8 +279,8 @@ body {
   background-color: var(--gov-navy);
   color: #ffffff;
   font-size: 0.9375rem;
-  font-weight: 700;
-  font-family: 'Open Sans', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
   border: none;
   border-radius: var(--gov-radius);
   cursor: pointer;
@@ -308,9 +308,9 @@ body {
   padding: 0.6875rem 1.25rem;
   background-color: var(--gov-white);
   color: var(--gov-text-secondary);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  font-family: 'Open Sans', ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
   border: 1px solid var(--gov-gray-border);
   border-radius: var(--gov-radius);
   cursor: pointer;

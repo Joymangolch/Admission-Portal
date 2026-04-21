@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { razorpay } from "@/lib/payment/razorpay";
 import { adminAuth } from "@/lib/firebase/admin";
+import { getApplicationByUserId, assertApplicationCanStartPayment, recordPaymentAttempt } from "@/lib/firestore/services";
+import { createRazorpayOrder } from "@/lib/payment/razorpay";
+import { calculateFee } from "@/lib/utils/payment";
 
 export async function POST(request: NextRequest) {
   try {
@@ -9,15 +11,31 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
     }
 
-    const { applicationId, amount = 1000 } = await request.json(); // Default 1000 INR
+    const idToken = authHeader.split("Bearer ")[1];
+    const decodedToken = await adminAuth.verifyIdToken(idToken);
+    const uid = decodedToken.uid;
 
-    const options = {
-      amount: amount * 100, // amount in smallest currency unit (paise)
-      currency: "INR",
-      receipt: `receipt_${applicationId}`,
-    };
+    const { applicationId } = await request.json();
 
-    const order = await razorpay.orders.create(options);
+    const application = await getApplicationByUserId(uid);
+    if (!application) {
+      return NextResponse.json({ success: false, error: "Application not found" }, { status: 404 });
+    }
+
+    if (applicationId && applicationId !== application.id) {
+      return NextResponse.json({ success: false, error: "Access denied" }, { status: 403 });
+    }
+
+    await assertApplicationCanStartPayment(application.id);
+
+    const amount = calculateFee(application);
+    const order = await createRazorpayOrder(amount, "INR", application.id);
+
+    await recordPaymentAttempt(application.id, {
+      orderId: order.id,
+      amount,
+      status: "PENDING",
+    });
 
     return NextResponse.json({
       success: true,

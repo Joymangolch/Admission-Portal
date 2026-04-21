@@ -17,9 +17,11 @@ export default async function ApplyLayout({
   if (!token) redirect("/login");
  
   let uid: string;
+  let candidateName: string | undefined;
   try {
     const decodedToken = await adminAuth.verifyIdToken(token);
     uid = decodedToken.uid;
+    candidateName = decodedToken.name || undefined;
   } catch {
     redirect("/login");
   }
@@ -29,11 +31,12 @@ export default async function ApplyLayout({
  
   return (
     <div className="flex min-h-screen flex-col" style={{ background: "var(--gov-bg)" }}>
-      {/* MTU Header with candidate nav */}
+      {/* MTU Header with candidate identity */}
       <MTUHeader 
         role="candidate" 
         applicationNumber={application.applicationNumber} 
-        status={application.status || "DRAFT"} 
+        status={application.status || "DRAFT"}
+        candidateName={candidateName}
       />
  
       {/* Body: Sidebar + Content wrapped in Client Shell */}

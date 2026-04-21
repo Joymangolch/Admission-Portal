@@ -16,7 +16,7 @@ export function ApplicationShell({ children, application }: ApplicationShellProp
     <div className="flex flex-1 w-full bg-white relative">
       {/* ── Left Sidebar ── */}
       <aside
-        className={`hidden lg:flex flex-col flex-shrink-0 border-r transition-all duration-300 ease-in-out sticky top-[128px] self-start`}
+        className={`hidden lg:flex flex-col shrink-0 border-r transition-all duration-300 ease-in-out sticky top-[128px] self-start`}
         style={{
           width: isCollapsed ? "64px" : "260px",
           minWidth: isCollapsed ? "64px" : "260px", // Rule 7: Fixed width
@@ -43,7 +43,7 @@ export function ApplicationShell({ children, application }: ApplicationShellProp
             borderColor: "var(--gov-gray-mid)",
           }}
         >
-          <div className="w-1 h-3.5 bg-[#08387F] rounded-full flex-shrink-0"></div>
+          <div className="w-1 h-3.5 bg-[#08387F] rounded-full shrink-0"></div>
           {!isCollapsed && (
             <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 whitespace-nowrap overflow-hidden">
               Workflow Steps

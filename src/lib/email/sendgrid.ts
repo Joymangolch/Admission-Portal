@@ -7,7 +7,20 @@ if (apiKey && !isPlaceholder) {
   sgMail.setApiKey(apiKey);
 }
 
-export const sendEmail = async (to: string, subject: string, text: string, html: string) => {
+type EmailAttachment = {
+  content: string;
+  filename: string;
+  type?: string;
+  disposition?: string;
+};
+
+export const sendEmail = async (
+  to: string,
+  subject: string,
+  text: string,
+  html: string,
+  options?: { attachments?: EmailAttachment[] }
+) => {
   if (!apiKey || isPlaceholder) {
     console.warn("⚠️ SendGrid Skip: SENDGRID_API_KEY is missing or a placeholder in .env.local");
     return { 
@@ -31,6 +44,7 @@ export const sendEmail = async (to: string, subject: string, text: string, html:
     subject,
     text,
     html,
+    ...(options?.attachments?.length ? { attachments: options.attachments } : {}),
   };
 
   try {

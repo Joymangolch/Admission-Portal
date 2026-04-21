@@ -105,7 +105,7 @@ export default function AdminDashboard() {
 
       {/* ── Left Sidebar ── */}
       <aside
-        className="hidden lg:flex flex-col flex-shrink-0 border-r"
+        className="hidden lg:flex flex-col shrink-0 border-r"
         style={{
           width: "240px",
           background: "#fff",

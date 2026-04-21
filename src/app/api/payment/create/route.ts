@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminAuth } from "@/lib/firebase/admin";
-import { getApplicationByUserId } from "@/lib/firestore/services";
+import { getApplicationByUserId, recordPaymentAttempt, assertApplicationCanStartPayment } from "@/lib/firestore/services";
 import { createRazorpayOrder } from "@/lib/payment/razorpay";
 import { calculateFee } from "@/lib/utils/payment";
 
@@ -15,10 +15,19 @@ export async function POST(request: NextRequest) {
     const decodedToken = await adminAuth.verifyIdToken(idToken);
     const uid = decodedToken.uid;
 
+    const body = await request.json();
+    const { applicationId } = body || {};
+
     const application = await getApplicationByUserId(uid);
     if (!application) {
       return NextResponse.json({ success: false, error: "Application not found" }, { status: 404 });
     }
+
+    if (applicationId && applicationId !== application.id) {
+      return NextResponse.json({ success: false, error: "Access denied" }, { status: 403 });
+    }
+
+    await assertApplicationCanStartPayment(application.id);
 
     const fee = calculateFee(application);
     
@@ -27,6 +36,11 @@ export async function POST(request: NextRequest) {
     }
 
     const order = await createRazorpayOrder(fee, "INR", application.id);
+    await recordPaymentAttempt(application.id, {
+      orderId: order.id,
+      amount: fee,
+      status: "PENDING",
+    });
 
     return NextResponse.json({
       success: true,

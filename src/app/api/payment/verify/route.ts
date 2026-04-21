@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminAuth } from "@/lib/firebase/admin";
-import { updateApplicationStatus, getApplicationById } from "@/lib/firestore/services";
+import { getApplicationById, finalizePaymentSuccess } from "@/lib/firestore/services";
 import { verifyRazorpaySignature } from "@/lib/payment/razorpay";
 import { sendEmail } from "@/lib/email/sendgrid";
 import { getPaymentEmail } from "@/lib/email/templates";
 import { calculateFee } from "@/lib/utils/payment";
+import { createPdfDownloadToken, generateApplicationReceiptPdf } from "@/lib/pdf/server";
 
 
 export async function POST(request: NextRequest) {
@@ -15,15 +16,68 @@ export async function POST(request: NextRequest) {
     }
 
     const idToken = authHeader.split("Bearer ")[1];
-    await adminAuth.verifyIdToken(idToken);
+    const decodedToken = await adminAuth.verifyIdToken(idToken);
 
     const body = await request.json();
     const { orderId, paymentId, signature, applicationId } = body;
 
+    if (!applicationId) {
+      return NextResponse.json({ success: false, error: "Missing applicationId" }, { status: 400 });
+    }
+
+    const application = await getApplicationById(applicationId);
+    if (!application) {
+      return NextResponse.json({ success: false, error: "Application not found" }, { status: 404 });
+    }
+
+    if (application.userId !== decodedToken.uid) {
+      return NextResponse.json({ success: false, error: "Access denied" }, { status: 403 });
+    }
+
+    if (application.status === "PAID" && application.paymentStatus === "SUCCESS") {
+      return NextResponse.json({ success: true, alreadyPaid: true });
+    }
+
     // Handle free applications (IDP)
     if (orderId === "FREE" && !paymentId) {
-       await updateApplicationStatus(applicationId, "PAID");
-       return NextResponse.json({ success: true });
+      const { application: finalizedApplication, isNewlyFinalized } = await finalizePaymentSuccess(applicationId, {
+        orderId,
+        paymentId: "FREE",
+        amount: 0,
+      });
+
+      if (!isNewlyFinalized) {
+        return NextResponse.json({ success: true, alreadyPaid: true });
+      }
+
+      const pdfToken = createPdfDownloadToken(applicationId);
+      const { buffer, fileName } = await generateApplicationReceiptPdf(finalizedApplication);
+
+      try {
+        const name = finalizedApplication.formData?.step1?.fullName || "Candidate";
+        const fee = calculateFee(finalizedApplication);
+        const downloadUrl = `/api/application/pdf?applicationId=${applicationId}&token=${pdfToken}`;
+        const { subject, html, text } = getPaymentEmail(name, finalizedApplication.applicationNumber, fee, {
+          orderId,
+          paymentId: "FREE",
+          downloadUrl,
+        });
+
+        await sendEmail(decodedToken.email!, subject, text, html, {
+          attachments: [
+            {
+              content: buffer.toString("base64"),
+              filename: fileName,
+              type: "application/pdf",
+              disposition: "attachment",
+            },
+          ],
+        });
+      } catch (err) {
+        console.error("Failed to send payment email:", err);
+      }
+
+      return NextResponse.json({ success: true });
     }
 
     const isValid = verifyRazorpaySignature(orderId, paymentId, signature);
@@ -32,19 +86,39 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: "Invalid signature" }, { status: 400 });
     }
 
-    // Update application status to PAID
-    await updateApplicationStatus(applicationId, "PAID");
+    const { application: finalizedApplication, isNewlyFinalized } = await finalizePaymentSuccess(applicationId, {
+      orderId,
+      paymentId,
+      amount: calculateFee(application),
+    });
+
+    if (!isNewlyFinalized) {
+      return NextResponse.json({ success: true, alreadyPaid: true });
+    }
+
+    const pdfToken = createPdfDownloadToken(applicationId);
+    const { buffer, fileName } = await generateApplicationReceiptPdf(finalizedApplication);
 
     // Send payment confirmation email
     try {
-      const application = await getApplicationById(applicationId);
-      if (application) {
-        const decodedToken = await adminAuth.verifyIdToken(idToken);
-        const fee = calculateFee(application);
-        const name = application.formData?.step1?.fullName || "Candidate";
-        const { subject, html } = getPaymentEmail(name, application.applicationNumber, fee);
-        await sendEmail(decodedToken.email!, subject, subject, html);
-      }
+      const fee = calculateFee(finalizedApplication);
+      const name = finalizedApplication.formData?.step1?.fullName || "Candidate";
+      const downloadUrl = `/api/application/pdf?applicationId=${applicationId}&token=${pdfToken}`;
+      const { subject, html, text } = getPaymentEmail(name, finalizedApplication.applicationNumber, fee, {
+        orderId,
+        paymentId,
+        downloadUrl,
+      });
+      await sendEmail(decodedToken.email!, subject, text, html, {
+        attachments: [
+          {
+            content: buffer.toString("base64"),
+            filename: fileName,
+            type: "application/pdf",
+            disposition: "attachment",
+          },
+        ],
+      });
     } catch (err) {
       console.error("Failed to send payment email:", err);
     }

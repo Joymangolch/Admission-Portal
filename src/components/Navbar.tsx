@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useAuth } from "@/lib/auth/AuthContext";
-import { LogOut, Phone, Mail, Menu, X, ChevronDown } from "lucide-react";
+import { LogOut, Phone, Mail, Menu, Download } from "lucide-react";
 
 /* ─────────────────────────────────────────
    TOP UTILITY BAR
@@ -79,15 +79,20 @@ function UtilityBar() {
 /* ─────────────────────────────────────────
    MAIN HEADER
    ───────────────────────────────────────── */
-function MainHeader() {
+function MainHeader({ candidateName, applicationNumber, status }: {
+  candidateName?: string;
+  applicationNumber?: string;
+  status?: string;
+}) {
   const { user, logout } = useAuth();
+  const displayName = candidateName || user?.displayName || user?.email;
 
   return (
     <header className="main-header">
       <div className="max-w-[1200px] mx-auto px-6 flex items-center justify-between h-16 gap-6">
         {/* Logo + Name */}
-        <Link href="/" className="flex items-center gap-3 flex-shrink-0" aria-label="MTU Admission Portal Home">
-          <div className="relative h-10 w-10 flex-shrink-0">
+        <Link href="/" className="flex items-center gap-3 shrink-0" aria-label="MTU Admission Portal Home">
+          <div className="relative h-10 w-10 shrink-0">
             <Image
               src="/logo.png"
               alt="Manipur Technical University Seal"
@@ -104,50 +109,56 @@ function MainHeader() {
             >
               MANIPUR TECHNICAL UNIVERSITY
             </span>
-            <span className="text-[10px] text-blue-200 font-bold tracking-[0.2em] uppercase mt-1">
+            <span className="text-[10px] text-blue-200 font-semibold tracking-[0.2em] uppercase mt-1">
               Admission Portal 2026-27
             </span>
           </div>
         </Link>
 
         {/* Right: Auth State */}
-        <div className="flex items-center gap-3 flex-shrink-0">
+        <div className="flex items-center gap-3 shrink-0">
           {user ? (
-            /* ── Logged In: show name + app number + logout ── */
+            /* ── Logged In: candidate identity + sign out ── */
             <div className="flex items-center gap-3">
-              <div className="hidden sm:flex flex-col items-end">
-                <span className="text-white text-sm font-bold leading-none">
-                  {user.displayName || user.email}
+              {/* Candidate Identity Chip */}
+              {displayName && (
+                <div className="hidden sm:flex flex-col items-end gap-0.5">
+                  <span className="text-white text-[13px] font-semibold leading-none">
+                    {displayName}
+                  </span>
+                  {applicationNumber && (
+                    <span className="text-blue-200 text-[10px] font-mono tracking-wider">
+                      Application No: {applicationNumber}
+                    </span>
+                  )}
+                </div>
+              )}
+              {status && (
+                <span className={`hidden sm:inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide ${
+                  status === 'PAID' || status === 'APPROVED'
+                    ? 'bg-emerald-500/20 text-emerald-200 border border-emerald-400/30'
+                    : 'bg-white/10 text-blue-200 border border-white/20'
+                }`}>
+                  {status === 'PAID' || status === 'APPROVED' ? 'FINALIZED' : 'IN PROGRESS'}
                 </span>
-                <span className="text-blue-200 text-xs font-medium mt-0.5">
-                  {user.email}
-                </span>
-              </div>
+              )}
               <button
                 onClick={logout}
-                className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold px-3 py-2 rounded transition-colors"
+                className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-medium px-3 py-2 rounded transition-colors"
                 aria-label="Sign out of your account"
               >
-                <LogOut size={14} />
+                <LogOut size={13} />
                 <span>Sign Out</span>
               </button>
             </div>
           ) : (
-            /* ── Not Logged In: show Login + Register ── */
-            <div className="flex items-center gap-2">
-              <Link
-                href="/login"
-                className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 border border-white/25 text-white text-xs font-bold px-3 py-2 rounded transition-colors"
-              >
-                Login
-              </Link>
-              <Link
-                href="/login"
-                className="flex items-center gap-1.5 bg-[#08387F] hover:bg-[#0a47a1] text-white text-xs font-bold px-4 py-2 rounded transition-all shadow-sm hover:shadow-md border border-[#062b66]"
-              >
-                New Registration
-              </Link>
-            </div>
+            /* ── Not Logged In: single entry point ── */
+            <Link
+              href="/login"
+              className="flex items-center gap-1.5 bg-white text-[#08387F] text-xs font-semibold px-4 py-2 rounded transition-all shadow-sm hover:shadow-md hover:bg-blue-50"
+            >
+              Continue with Google
+            </Link>
           )}
         </div>
       </div>
@@ -160,26 +171,20 @@ function MainHeader() {
    ───────────────────────────────────────── */
 type UserRole = "public" | "candidate" | "admin";
 
-const NAV_LINKS: Record<UserRole, { label: string; href: string }[]> = {
+const NAV_LINKS: Record<UserRole, { label: string; href: string; exact?: boolean }[]> = {
   public: [
-    { label: "Home", href: "/" },
-    { label: "New Registration", href: "/login" },
-    { label: "Login", href: "/login" },
-    { label: "Instructions", href: "/#instructions" },
+    { label: "Home", href: "/", exact: true },
   ],
   candidate: [
-    { label: "Dashboard", href: "/candidate/dashboard" },
-    { label: "My Application", href: "/apply/1" },
-    { label: "Payment Status", href: "/candidate/dashboard" },
-    { label: "Download Form", href: "/candidate/dashboard" },
-    { label: "Help", href: "/#instructions" },
+    { label: "Dashboard", href: "/candidate/dashboard", exact: true },
+    { label: "My Application", href: "/apply", exact: false },
   ],
   admin: [
-    { label: "Dashboard", href: "/admin/dashboard" },
-    { label: "Applications", href: "/admin/dashboard" },
-    { label: "Verification Queue", href: "/admin/dashboard" },
-    { label: "Reports", href: "/admin/dashboard" },
-    { label: "Settings", href: "/admin/dashboard" },
+    { label: "Dashboard", href: "/admin/dashboard", exact: true },
+    { label: "Applications", href: "/admin/dashboard", exact: true },
+    { label: "Verification Queue", href: "/admin/dashboard", exact: true },
+    { label: "Reports", href: "/admin/dashboard", exact: true },
+    { label: "Settings", href: "/admin/dashboard", exact: true },
   ],
 };
 
@@ -200,9 +205,12 @@ function AppNavbar({
     <nav className="app-navbar" aria-label="Application navigation">
       <div className="max-w-[1200px] mx-auto px-6 flex items-center justify-between">
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-3" role="menubar">
+        <div className="hidden md:flex items-center gap-1" role="menubar">
           {links.map((link) => {
-            const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
+            // Strict exact matching so only one item is ever active
+            const isActive = link.exact
+              ? pathname === link.href || pathname === link.href.split('#')[0]
+              : pathname.startsWith(link.href);
             return (
               <Link
                 key={link.label}
@@ -216,29 +224,16 @@ function AppNavbar({
           })}
         </div>
  
-        {/* Role indicator pill + App Info (desktop) */}
+        {/* Role indicator (desktop) */}
         <div className="hidden md:flex items-center gap-4">
-          {applicationNumber && (
-            <div className="flex items-center gap-3 pr-4 border-r border-gray-200">
-              <div className="flex flex-col items-end">
-                <span className="text-[9px] font-black uppercase tracking-widest text-gray-400 leading-none">Application No.</span>
-                <span className="text-[11px] font-bold text-blue-900 font-mono mt-0.5">{applicationNumber}</span>
-              </div>
-              {status && (
-                <span className="gov-badge gov-badge-blue text-[9px] rounded-sm uppercase tracking-tighter">
-                  {status}
-                </span>
-              )}
-            </div>
-          )}
-          <span className="text-xs font-black text-gray-400 uppercase tracking-[0.2em]">
-            {role === "admin" ? "Admin Portal" : role === "candidate" ? "Candidate Portal" : "Public"}
+          <span className="text-xs font-medium text-gray-400 uppercase tracking-[0.15em]">
+            {role === "admin" ? "Admin" : "Candidate Portal"}
           </span>
         </div>
 
         {/* Mobile hamburger */}
         <button
-          className="md:hidden flex items-center gap-2 py-3 text-sm font-semibold text-gray-600"
+          className="md:hidden flex items-center gap-2 py-3 text-sm font-medium text-gray-600"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileOpen}
@@ -256,7 +251,7 @@ function AppNavbar({
               key={link.label}
               href={link.href}
               role="menuitem"
-              className="block px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50 border-b border-gray-100"
+              className="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 border-b border-gray-100"
               onClick={() => setMobileOpen(false)}
             >
               {link.label}
@@ -275,15 +270,17 @@ export function MTUHeader({
   role = "public",
   applicationNumber,
   status,
+  candidateName,
 }: {
   role?: UserRole;
   applicationNumber?: string;
   status?: string;
+  candidateName?: string;
 }) {
   return (
     <div className="sticky top-0 z-50 w-full shadow-md">
       <UtilityBar />
-      <MainHeader />
+      <MainHeader candidateName={candidateName} applicationNumber={applicationNumber} status={status} />
       <AppNavbar role={role} applicationNumber={applicationNumber} status={status} />
     </div>
   );
@@ -295,17 +292,16 @@ export function MTUHeader({
 export function SmartMTUHeader({
   applicationNumber,
   status,
+  candidateName,
 }: {
   applicationNumber?: string;
   status?: string;
+  candidateName?: string;
 }) {
   const { user } = useAuth();
  
-  // Role detection: check for admin cookie via document.cookie  
-  // (The middleware sets user-role=admin cookie for admins)
   let role: UserRole = "public";
   if (user) {
-    // Check for admin role via document.cookie (client-safe)
     if (typeof document !== "undefined") {
       const isAdmin = document.cookie.includes("user-role=admin");
       role = isAdmin ? "admin" : "candidate";
@@ -317,7 +313,7 @@ export function SmartMTUHeader({
   return (
     <div className="sticky top-0 z-50 w-full shadow-md">
       <UtilityBar />
-      <MainHeader />
+      <MainHeader candidateName={candidateName} applicationNumber={applicationNumber} status={status} />
       <AppNavbar role={role} applicationNumber={applicationNumber} status={status} />
     </div>
   );

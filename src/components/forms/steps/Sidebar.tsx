@@ -62,7 +62,7 @@ export function Sidebar({
             tabIndex={isLocked ? -1 : 0}
           >
             <div
-              className={`w-7 h-7 rounded flex items-center justify-center text-[10px] font-bold transition-all duration-200 border flex-shrink-0`}
+              className={`w-7 h-7 rounded flex items-center justify-center text-[10px] font-bold transition-all duration-200 border shrink-0`}
               style={{
                 background: isActive
                   ? "var(--gov-navy)"

@@ -9,33 +9,55 @@ import { FormCard, StepActions } from "@/components/ui";
 
 
 
-const requiredDocs = [
+const BASE_DOCS = [
   { type: "class10_marksheet", label: "Class X Marksheet" },
   { type: "class12_marksheet", label: "Class XII Marksheet" },
   { type: "passport_photo", label: "Passport Size Photograph" },
   { type: "signature", label: "Specimen Signature" },
-  { type: "category_cert", label: "Category Certificate (SC/ST/OBC/PWD/IDP)" },
 ];
+
+const CATEGORY_MAP: Record<string, string> = {
+  OBC: "OBC Certificate",
+  SC: "SC Certificate",
+  ST: "ST Certificate",
+  PWD: "PWD Certificate",
+  IDP: "Internally Displaced Person (IDP) Certificate",
+};
 
 export function DocumentsStep({
   applicationId,
   initialData,
+  category,
+  isJEECandidate,
 }: {
   applicationId: string;
   initialData: any;
+  category?: string;
+  isJEECandidate?: boolean;
 }) {
   const router = useRouter();
   const [uploaded, setUploaded] = useState<Record<string, string>>(
     initialData?.documents || {}
   );
 
+  // Dynamically build required docs
+  const activeDocs = [...BASE_DOCS];
+
+  if (category && category !== "GEN" && CATEGORY_MAP[category]) {
+    activeDocs.push({ type: "category_cert", label: CATEGORY_MAP[category] });
+  }
+
+  if (isJEECandidate) {
+    activeDocs.push({ type: "jee_scorecard", label: "JEE Main Scorecard" });
+  }
+
   const handleUploadSuccess = (type: string, url: string) => {
     setUploaded((prev) => ({ ...prev, [type]: url }));
   };
 
   const handleContinue = async () => {
-    const missing = requiredDocs.filter(
-      (doc) => doc.type !== "category_cert" && !uploaded[doc.type]
+    const missing = activeDocs.filter(
+      (doc) => !uploaded[doc.type]
     );
     if (missing.length > 0) {
       toast.error(`Please upload: ${missing.map((m) => m.label).join(", ")}`);
@@ -63,10 +85,9 @@ export function DocumentsStep({
         </div>
       </FormCard>
  
-      {/* Document upload rows */}
       <FormCard title="Required Documents">
         <div className="flex flex-col divide-y divide-slate-50">
-          {requiredDocs.map((doc) => (
+          {activeDocs.map((doc) => (
             <DocumentUpload
               key={doc.type}
               applicationId={applicationId}

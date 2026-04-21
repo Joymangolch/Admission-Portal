@@ -11,6 +11,7 @@ import { adminAuth } from "@/lib/firebase/admin";
 import { sendEmail } from "@/lib/email/sendgrid";
 import { getSubmissionEmail } from "@/lib/email/templates";
 import { cookies } from "next/headers";
+import { Application } from "@/types";
 
 
 // Schemas for each Step
@@ -70,9 +71,33 @@ const DocumentsSchema = z.object({
 });
 
 
+async function getAuthorizedApplication(applicationId: string) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("auth-token")?.value;
+
+  if (!token) {
+    throw new Error("Unauthorized");
+  }
+
+  const decodedToken = await adminAuth.verifyIdToken(token);
+  const application = await getApplicationById(applicationId);
+
+  if (!application) {
+    throw new Error("Application not found");
+  }
+
+  if (application.userId !== decodedToken.uid) {
+    throw new Error("Access denied");
+  }
+
+  return application as Application;
+}
+
+
 
 // Server Actions
 export async function savePersonalDetailsAction(applicationId: string, data: any) {
+  await getAuthorizedApplication(applicationId);
   const validatedData = PersonalDetailsSchema.parse(data);
   await saveApplicationStep(applicationId, 1, validatedData);
   revalidatePath("/(candidate)/apply", "layout");
@@ -80,6 +105,7 @@ export async function savePersonalDetailsAction(applicationId: string, data: any
 }
 
 export async function saveParentDetailsAction(applicationId: string, data: any) {
+  await getAuthorizedApplication(applicationId);
   const validatedData = ParentDetailsSchema.parse(data);
   await saveApplicationStep(applicationId, 2, validatedData);
   revalidatePath("/(candidate)/apply", "layout");
@@ -87,6 +113,7 @@ export async function saveParentDetailsAction(applicationId: string, data: any) 
 }
 
 export async function saveAddressDetailsAction(applicationId: string, data: any) {
+  await getAuthorizedApplication(applicationId);
   const validatedData = AddressDetailsSchema.parse(data);
   await saveApplicationStep(applicationId, 3, validatedData);
   revalidatePath("/(candidate)/apply", "layout");
@@ -94,6 +121,7 @@ export async function saveAddressDetailsAction(applicationId: string, data: any)
 }
 
 export async function saveEducationDetailsAction(applicationId: string, data: any) {
+  await getAuthorizedApplication(applicationId);
   const validatedData = EducationDetailsSchema.parse(data);
   await saveApplicationStep(applicationId, 4, validatedData);
   revalidatePath("/(candidate)/apply", "layout");
@@ -101,6 +129,7 @@ export async function saveEducationDetailsAction(applicationId: string, data: an
 }
 
 export async function saveCoursePreferencesAction(applicationId: string, data: any) {
+  await getAuthorizedApplication(applicationId);
   const validatedData = CoursePreferencesSchema.parse(data);
   await saveApplicationStep(applicationId, 5, validatedData);
   revalidatePath("/(candidate)/apply", "layout");
@@ -108,6 +137,7 @@ export async function saveCoursePreferencesAction(applicationId: string, data: a
 }
 
 export async function saveDocumentsAction(applicationId: string, data: any) {
+  await getAuthorizedApplication(applicationId);
   const validatedData = DocumentsSchema.parse(data);
   await saveApplicationStep(applicationId, 6, validatedData);
   revalidatePath("/(candidate)/apply", "layout");
@@ -115,6 +145,7 @@ export async function saveDocumentsAction(applicationId: string, data: any) {
 }
  
 export async function savePreviewAction(applicationId: string) {
+  await getAuthorizedApplication(applicationId);
   // Mark step 7 as viewed. This will increment currentStep to 8 via services.saveApplicationStep
   await saveApplicationStep(applicationId, 7, { viewed: true });
   revalidatePath("/(candidate)/apply", "layout");
@@ -123,8 +154,7 @@ export async function savePreviewAction(applicationId: string) {
 
 
 export async function submitApplicationAction(applicationId: string) {
-  const application = await getApplicationById(applicationId);
-  if (!application) throw new Error("Application not found");
+  const application = await getAuthorizedApplication(applicationId);
   
   // Save step 8 (Declaration) data implicitly as empty/complete
   await saveApplicationStep(applicationId, 8, { agreed: true, submittedAt: new Date().toISOString() });

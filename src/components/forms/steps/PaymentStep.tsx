@@ -21,11 +21,13 @@ export function PaymentStep({
   application: any;
 }) {
   const [isProcessing, setIsProcessing] = useState(false);
+  const isPaid = application.status === "PAID" || application.paymentStatus === "SUCCESS";
   const router = useRouter();
   const { user } = useAuth();
 
   const handlePayment = async () => {
     if (!user) return;
+    if (isPaid) return;
     setIsProcessing(true);
     try {
       const token = await user.getIdToken();
@@ -123,6 +125,11 @@ export function PaymentStep({
           <p className="text-xs text-slate-500 mt-1 max-w-sm">
             Process your admission fee securely via Razorpay. Your data is protected by industrial-grade encryption.
           </p>
+          {isPaid && (
+            <p className="mt-3 text-xs font-bold uppercase tracking-widest text-green-700">
+              Payment already completed
+            </p>
+          )}
         </div>
       </FormCard>
  
@@ -152,9 +159,10 @@ export function PaymentStep({
  
       <StepActions
         onBack={() => router.push("/apply/8")}
-        primaryLabel={isProcessing ? "Processing..." : "Complete Payment"}
+        primaryLabel={isPaid ? "Payment Completed" : isProcessing ? "Processing..." : "Complete Payment"}
         onPrimary={handlePayment}
         isLoading={isProcessing}
+        disabled={isPaid}
       />
     </div>
   );

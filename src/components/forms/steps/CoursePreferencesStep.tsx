@@ -88,7 +88,7 @@ export function CoursePreferencesStep({
             <div key={num} className="flex items-center gap-3 p-3 rounded-lg border border-slate-100 bg-slate-50/50">
               {/* Rank badge */}
               <div
-                className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded bg-primary text-xs font-bold text-white"
+                className="shrink-0 w-8 h-8 flex items-center justify-center rounded bg-primary text-xs font-bold text-white"
                 aria-label={`Priority ${num}`}
               >
                 {num}
