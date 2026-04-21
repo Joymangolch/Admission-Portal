@@ -1,0 +1,523 @@
+[debug] [2026-04-20T19:59:23.574Z] ----------------------------------------------------------------------
+[debug] [2026-04-20T19:59:23.577Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\nesla\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2026-04-20T19:59:23.577Z] CLI Version:   15.7.0
+[debug] [2026-04-20T19:59:23.577Z] Platform:      win32
+[debug] [2026-04-20T19:59:23.577Z] Node Version:  v22.16.0
+[debug] [2026-04-20T19:59:23.578Z] Time:          Tue Apr 21 2026 01:29:23 GMT+0530 (India Standard Time)
+[debug] [2026-04-20T19:59:23.578Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-04-20T19:59:25.384Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-04-20T19:59:25.384Z] > authorizing via signed-in user (ashuelangbam@gmail.com)
+[debug] [2026-04-20T19:59:25.384Z] [iam] checking project mtu-admission-portal for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-04-20T19:59:25.385Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T19:59:25.386Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T19:59:25.387Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal:testIamPermissions [none]
+[debug] [2026-04-20T19:59:25.387Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal:testIamPermissions  x-goog-user-project=mtu-admission-portal
+[debug] [2026-04-20T19:59:25.387Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-04-20T19:59:27.080Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal:testIamPermissions 200
+[debug] [2026-04-20T19:59:27.080Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-04-20T19:59:27.081Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T19:59:27.081Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T19:59:27.081Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/mtu-admission-portal [none]
+[debug] [2026-04-20T19:59:27.696Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/mtu-admission-portal 200
+[debug] [2026-04-20T19:59:27.696Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/mtu-admission-portal {"projectId":"mtu-admission-portal","projectNumber":"593669896737","displayName":"mtu-admission-portal","name":"projects/mtu-admission-portal","resources":{"hostingSite":"mtu-admission-portal"},"state":"ACTIVE","etag":"1_eb9ead3a-0152-4973-aace-e3b43d0d5ca1"}
+[debug] [2026-04-20T19:59:30.098Z] defaultcredentials: writing to file C:\Users\nesla\AppData\Roaming\firebase\ashuelangbam_gmail_com_application_default_credentials.json
+[debug] [2026-04-20T19:59:30.099Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T19:59:30.099Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T19:59:30.099Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/mtu-admission-portal/sites pageToken=&pageSize=10
+[debug] [2026-04-20T19:59:31.633Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/mtu-admission-portal/sites 200
+[debug] [2026-04-20T19:59:31.633Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/mtu-admission-portal/sites {"sites":[{"name":"projects/mtu-admission-portal/sites/mtu-admission-portal","defaultUrl":"https://mtu-admission-portal.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2026-04-20T19:59:31.634Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T19:59:31.634Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T19:59:31.634Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/mtu-admission-portal/sites 
+[debug] [2026-04-20T19:59:32.425Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/mtu-admission-portal/sites 200
+[debug] [2026-04-20T19:59:32.425Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/mtu-admission-portal/sites {"sites":[{"name":"projects/mtu-admission-portal/sites/mtu-admission-portal","defaultUrl":"https://mtu-admission-portal.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2026-04-20T19:59:32.426Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T19:59:32.426Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T19:59:32.426Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/mtu-admission-portal/webApps/-/config [none]
+[debug] [2026-04-20T19:59:33.905Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/mtu-admission-portal/webApps/-/config 200
+[debug] [2026-04-20T19:59:33.905Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/mtu-admission-portal/webApps/-/config {"projectId":"mtu-admission-portal","appId":"1:593669896737:web:a2ef77cbaaf0b6acf78160","storageBucket":"mtu-admission-portal.firebasestorage.app","apiKey":"AIzaSyDF7W14tTzodLg4Dm9FeAV0ZinWOaFJBv0","authDomain":"mtu-admission-portal.firebaseapp.com","messagingSenderId":"593669896737","projectNumber":"593669896737","version":"2"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+   The integration is known to work with Next.js version 12 - 15.0. You may encounter errors.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2026-04-20T19:59:39.611Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T19:59:39.611Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T19:59:39.611Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/mtu-admission-portal/sites/mtu-admission-portal [none]
+[debug] [2026-04-20T19:59:40.926Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/mtu-admission-portal/sites/mtu-admission-portal 200
+[debug] [2026-04-20T19:59:40.926Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/mtu-admission-portal/sites/mtu-admission-portal {"name":"projects/mtu-admission-portal/sites/mtu-admission-portal","defaultUrl":"https://mtu-admission-portal.web.app","type":"DEFAULT_SITE"}
+[info] ▲ Next.js 16.2.4 (Turbopack)
+
+[info] - Environments: .env.local
+
+
+[info]   Creating an optimized production build ...
+
+[info] ✓ Compiled successfully in 7.6s
+
+[info]   Running TypeScript ...
+
+[info]   Finished TypeScript in 5.6s ...
+
+[info]   Collecting page data using 11 workers ...
+
+[info]   Generating static pages using 11 workers (0/15) ...
+
+[info]   Generating static pages using 11 workers (3/15) 
+
+[info]   Generating static pages using 11 workers (7/15) 
+
+[info]   Generating static pages using 11 workers (11/15) 
+
+[info] ✓ Generating static pages using 11 workers (15/15) in 598ms
+
+[info]   Finalizing page optimization ...
+
+[info] 
+
+[info] Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /admin/application/[id]
+├ ○ /admin/dashboard
+├ ƒ /api/admin/applications
+├ ƒ /api/admin/applications/update
+├ ƒ /api/application/save-step
+├ ƒ /api/auth/verify
+├ ƒ /api/document/upload
+├ ƒ /api/payment/create
+├ ƒ /api/payment/create-order
+├ ƒ /api/payment/verify
+├ ƒ /apply/[step]
+├ ○ /candidate/dashboard
+└ ○ /login
+
+
+ƒ Proxy (Middleware)
+
+[info] 
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+
+[info] Building a Cloud Function to run this application. This is needed due to:
+[info]  • middleware
+[info]  • non-static component /(candidate)/apply/[step]/page
+[info]  • non-static component /admin/application/[id]/page
+[info]  • non-static component /api/admin/applications/route
+[info]  • non-static component /api/admin/applications/update/route
+[debug] [2026-04-20T20:00:00.609Z]  • non-static component /api/application/save-step/route
+[debug] [2026-04-20T20:00:00.609Z]  • non-static component /api/auth/verify/route
+[debug] [2026-04-20T20:00:00.609Z]  • non-static component /api/document/upload/route
+[debug] [2026-04-20T20:00:00.609Z]  • non-static component /api/payment/create-order/route
+[debug] [2026-04-20T20:00:00.609Z]  • non-static component /api/payment/create/route
+[debug] [2026-04-20T20:00:00.610Z]  • non-static component /api/payment/verify/route
+[info]  • and 6 other reasons, use --debug to see more
+[info] 
+[debug] [2026-04-20T20:00:00.676Z] skipping /admin/dashboard due to it matching an unsupported rewrite/redirect/header or middlware
+[debug] [2026-04-20T20:00:00.677Z] skipping /candidate/dashboard due to it matching an unsupported rewrite/redirect/header or middlware
+[debug] [2026-04-20T20:00:00.677Z] skipping /login due to it matching an unsupported rewrite/redirect/header or middlware
+[debug] [2026-04-20T20:00:00.695Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:00:00.695Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:00:00.695Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/mtu-admission-portal/sites/mtu-admission-portal [none]
+[debug] [2026-04-20T20:00:02.068Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/mtu-admission-portal/sites/mtu-admission-portal 200
+[debug] [2026-04-20T20:00:02.068Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/mtu-admission-portal/sites/mtu-admission-portal {"name":"projects/mtu-admission-portal/sites/mtu-admission-portal","defaultUrl":"https://mtu-admission-portal.web.app","type":"DEFAULT_SITE"}
+[debug] [2026-04-20T20:00:51.779Z] [web frameworks] effective firebase.json:  {
+  "hosting": [
+    {
+      "source": ".",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "frameworksBackend": {},
+      "site": "mtu-admission-portal",
+      "rewrites": [
+        {
+          "source": "/**",
+          "function": {
+            "functionId": "ssrmtuadmissionportal",
+            "region": "us-central1",
+            "pinTag": true
+          }
+        }
+      ],
+      "redirects": [],
+      "headers": [
+        {
+          "source": "/_global-error",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/_global-error/layout,_N_T_/_global-error/page,_N_T_/_global-error"
+            }
+          ]
+        },
+        {
+          "source": "/_not-found",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/_not-found/layout,_N_T_/_not-found/page,_N_T_/_not-found"
+            }
+          ]
+        },
+        {
+          "source": "/admin/dashboard",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/admin/layout,_N_T_/admin/dashboard/layout,_N_T_/admin/dashboard/page,_N_T_/admin/dashboard"
+            }
+          ]
+        },
+        {
+          "source": "/login",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/login/layout,_N_T_/login/page,_N_T_/login"
+            }
+          ]
+        },
+        {
+          "source": "/favicon.ico",
+          "headers": [
+            {
+              "key": "cache-control",
+              "value": "public, max-age=0, must-revalidate"
+            },
+            {
+              "key": "content-type",
+              "value": "image/x-icon"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/favicon.ico/layout,_N_T_/favicon.ico/route,_N_T_/favicon.ico"
+            }
+          ]
+        },
+        {
+          "source": "/candidate/dashboard",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/candidate/layout,_N_T_/candidate/dashboard/layout,_N_T_/candidate/dashboard/page,_N_T_/candidate/dashboard"
+            }
+          ]
+        },
+        {
+          "source": "/**/*.[jt]s",
+          "headers": [
+            {
+              "key": "Set-Cookie",
+              "value": "__FIREBASE_DEFAULTS__=eyJjb25maWciOnsicHJvamVjdElkIjoibXR1LWFkbWlzc2lvbi1wb3J0YWwiLCJhcHBJZCI6IjE6NTkzNjY5ODk2NzM3OndlYjphMmVmNzdjYmFhZjBiNmFjZjc4MTYwIiwic3RvcmFnZUJ1Y2tldCI6Im10dS1hZG1pc3Npb24tcG9ydGFsLmZpcmViYXNlc3RvcmFnZS5hcHAiLCJhcGlLZXkiOiJBSXphU3lERjdXMTR0VHpvZExnNERtOUZlQVYwWmluV09hRkpCdjAiLCJhdXRoRG9tYWluIjoibXR1LWFkbWlzc2lvbi1wb3J0YWwuZmlyZWJhc2VhcHAuY29tIiwibWVzc2FnaW5nU2VuZGVySWQiOiI1OTM2Njk4OTY3MzciLCJwcm9qZWN0TnVtYmVyIjoiNTkzNjY5ODk2NzM3IiwidmVyc2lvbiI6IjIifSwiX2F1dGhUb2tlblN5bmNVUkwiOiIvX19zZXNzaW9uIn0; SameSite=Strict; Expires=2028-03-15T06:40:51.779Z; Path=/;"
+            }
+          ]
+        }
+      ],
+      "cleanUrls": true,
+      "trailingSlash": false,
+      "public": ".firebase\\mtu-admission-portal\\hosting",
+      "webFramework": "next_ssr"
+    }
+  ],
+  "functions": [
+    {
+      "source": ".firebase\\mtu-admission-portal\\functions",
+      "codebase": "firebase-frameworks-mtu-admission-portal"
+    }
+  ]
+}
+[debug] [2026-04-20T20:00:51.780Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-04-20T20:00:51.780Z] > authorizing via signed-in user (ashuelangbam@gmail.com)
+[debug] [2026-04-20T20:00:51.780Z] [iam] checking project mtu-admission-portal for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2026-04-20T20:00:51.780Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:00:51.781Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:00:51.781Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal:testIamPermissions [none]
+[debug] [2026-04-20T20:00:51.781Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal:testIamPermissions  x-goog-user-project=mtu-admission-portal
+[debug] [2026-04-20T20:00:51.781Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2026-04-20T20:00:53.441Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal:testIamPermissions 200
+[debug] [2026-04-20T20:00:53.441Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[info] 
+[info] === Deploying to 'mtu-admission-portal'...
+[info] 
+[info] i  deploying functions, hosting 
+[debug] [2026-04-20T20:00:53.452Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:00:53.452Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:00:53.452Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/cloudresourcemanager.googleapis.com [none]
+[debug] [2026-04-20T20:00:53.452Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/cloudresourcemanager.googleapis.com  x-goog-user-project=mtu-admission-portal
+[debug] [2026-04-20T20:00:55.551Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/cloudresourcemanager.googleapis.com 200
+[debug] [2026-04-20T20:00:55.551Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/cloudresourcemanager.googleapis.com [omitted]
+[debug] [2026-04-20T20:00:55.563Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:00:55.564Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:00:55.564Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal [none]
+[debug] [2026-04-20T20:00:55.936Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal 200
+[debug] [2026-04-20T20:00:55.936Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal {"projectNumber":"593669896737","projectId":"mtu-admission-portal","lifecycleState":"ACTIVE","name":"mtu-admission-portal","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2026-04-17T11:04:48.422Z"}
+[info] i  functions: preparing codebase firebase-frameworks-mtu-admission-portal for deployment 
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[debug] [2026-04-20T20:00:55.938Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:00:55.938Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:00:55.938Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:00:55.938Z] Checked if tokens are valid: true, expires at: 1776718711544
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[debug] [2026-04-20T20:00:55.939Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:00:55.939Z] Checked if tokens are valid: true, expires at: 1776718711544
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2026-04-20T20:00:55.939Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:00:55.939Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:00:55.939Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/cloudfunctions.googleapis.com [none]
+[debug] [2026-04-20T20:00:55.939Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/cloudfunctions.googleapis.com  x-goog-user-project=mtu-admission-portal
+[debug] [2026-04-20T20:00:55.940Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/runtimeconfig.googleapis.com [none]
+[debug] [2026-04-20T20:00:55.940Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/runtimeconfig.googleapis.com  x-goog-user-project=mtu-admission-portal
+[debug] [2026-04-20T20:00:55.941Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/cloudbuild.googleapis.com [none]
+[debug] [2026-04-20T20:00:55.941Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/cloudbuild.googleapis.com  x-goog-user-project=mtu-admission-portal
+[debug] [2026-04-20T20:00:55.943Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/artifactregistry.googleapis.com [none]
+[debug] [2026-04-20T20:00:55.943Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/artifactregistry.googleapis.com  x-goog-user-project=mtu-admission-portal
+[debug] [2026-04-20T20:00:57.746Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/cloudfunctions.googleapis.com 200
+[debug] [2026-04-20T20:00:57.746Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/cloudfunctions.googleapis.com [omitted]
+[info] +  functions: required API cloudfunctions.googleapis.com is enabled 
+[debug] [2026-04-20T20:00:57.874Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/cloudbuild.googleapis.com 200
+[debug] [2026-04-20T20:00:57.874Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/cloudbuild.googleapis.com [omitted]
+[info] +  functions: required API cloudbuild.googleapis.com is enabled 
+[debug] [2026-04-20T20:00:57.895Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/runtimeconfig.googleapis.com 200
+[debug] [2026-04-20T20:00:57.895Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2026-04-20T20:00:57.999Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/artifactregistry.googleapis.com 200
+[debug] [2026-04-20T20:00:57.999Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/artifactregistry.googleapis.com [omitted]
+[info] +  artifactregistry: required API artifactregistry.googleapis.com is enabled 
+[debug] [2026-04-20T20:00:58.018Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:00:58.018Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:00:58.019Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/mtu-admission-portal/adminSdkConfig [none]
+[debug] [2026-04-20T20:00:59.151Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/mtu-admission-portal/adminSdkConfig 200
+[debug] [2026-04-20T20:00:59.151Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/mtu-admission-portal/adminSdkConfig {"projectId":"mtu-admission-portal","storageBucket":"mtu-admission-portal.firebasestorage.app"}
+[debug] [2026-04-20T20:00:59.152Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:00:59.152Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:00:59.152Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/mtu-admission-portal/configs [none]
+[debug] [2026-04-20T20:00:59.818Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/mtu-admission-portal/configs 200
+[debug] [2026-04-20T20:00:59.819Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/mtu-admission-portal/configs {}
+[debug] [2026-04-20T20:00:59.820Z] Validating nodejs source
+[warn] !  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[warn] !  functions: Please note that there will be breaking changes when you upgrade. 
+[debug] [2026-04-20T20:01:01.252Z] > [functions] package.json contents: {
+  "name": "admission-portal",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
+    "@sendgrid/mail": "^8.1.6",
+    "firebase": "^12.12.0",
+    "firebase-admin": "^13.8.0",
+    "html2canvas": "^1.4.1",
+    "js-cookie": "^3.0.5",
+    "jspdf": "^4.2.1",
+    "lucide-react": "^1.8.0",
+    "next": "16.2.4",
+    "qrcode.react": "^4.2.0",
+    "razorpay": "^2.9.6",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-hook-form": "^7.72.1",
+    "react-hot-toast": "^2.6.0",
+    "zod": "^4.3.6",
+    "firebase-frameworks": "^0.11.0",
+    "firebase-functions": "^6.0.1"
+  },
+  "main": "server.js",
+  "engines": {
+    "node": "22"
+  }
+}
+[debug] [2026-04-20T20:01:01.252Z] Building nodejs source
+[info] i  functions: Loading and analyzing source code for codebase firebase-frameworks-mtu-admission-portal to determine what to deploy 
+[debug] [2026-04-20T20:01:01.253Z] Could not find functions.yaml. Must use http discovery
+[debug] [2026-04-20T20:01:01.271Z] Found firebase-functions binary at 'D:\Dev Env\Admission-Portal\.firebase\mtu-admission-portal\functions\node_modules\.bin\firebase-functions'
+[info] Serving at port 8043
+
+[debug] [2026-04-20T20:01:01.883Z] Got response from /__/functions.yaml {"endpoints":{"ssrmtuadmissionportal":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"ssrmtuadmissionportal"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[info] i  extensions: ensuring required API firebaseextensions.googleapis.com is enabled... 
+[debug] [2026-04-20T20:01:05.990Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:01:05.990Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:01:05.990Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/firebaseextensions.googleapis.com [none]
+[debug] [2026-04-20T20:01:05.990Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/firebaseextensions.googleapis.com  x-goog-user-project=mtu-admission-portal
+[debug] [2026-04-20T20:01:07.937Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/firebaseextensions.googleapis.com 200
+[debug] [2026-04-20T20:01:07.937Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/firebaseextensions.googleapis.com [omitted]
+[warn] !  extensions: missing required API firebaseextensions.googleapis.com. Enabling now... 
+[debug] [2026-04-20T20:01:07.938Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:01:07.938Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:01:07.938Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/firebaseextensions.googleapis.com:enable [none]
+[debug] [2026-04-20T20:01:07.939Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/firebaseextensions.googleapis.com:enable  x-goog-user-project=mtu-admission-portal
+[debug] [2026-04-20T20:01:08.524Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/firebaseextensions.googleapis.com:enable 200
+[debug] [2026-04-20T20:01:08.525Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/mtu-admission-portal/services/firebaseextensions.googleapis.com:enable [omitted]
+[debug] [2026-04-20T20:01:18.534Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-04-20T20:01:18.535Z] > authorizing via signed-in user (ashuelangbam@gmail.com)
+[debug] [2026-04-20T20:01:18.535Z] [iam] checking project mtu-admission-portal for permissions ["firebase.projects.get","firebaseextensions.instances.list"]
+[debug] [2026-04-20T20:01:18.535Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:01:18.535Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:01:18.535Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal:testIamPermissions [none]
+[debug] [2026-04-20T20:01:18.535Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal:testIamPermissions  x-goog-user-project=mtu-admission-portal
+[debug] [2026-04-20T20:01:18.535Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal:testIamPermissions {"permissions":["firebase.projects.get","firebaseextensions.instances.list"]}
+[debug] [2026-04-20T20:01:20.202Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal:testIamPermissions 200
+[debug] [2026-04-20T20:01:20.202Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal:testIamPermissions {"permissions":["firebase.projects.get","firebaseextensions.instances.list"]}
+[debug] [2026-04-20T20:01:20.202Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:01:20.202Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:01:20.202Z] >>> [apiv2][query] GET https://firebaseextensions.googleapis.com/v1beta/projects/mtu-admission-portal/instances pageSize=100&pageToken=
+[debug] [2026-04-20T20:01:23.253Z] <<< [apiv2][status] GET https://firebaseextensions.googleapis.com/v1beta/projects/mtu-admission-portal/instances 200
+[debug] [2026-04-20T20:01:23.254Z] <<< [apiv2][body] GET https://firebaseextensions.googleapis.com/v1beta/projects/mtu-admission-portal/instances {}
+[info] i  functions: Loaded environment variables from .env. 
+[info] i  functions: preparing .firebase\mtu-admission-portal\functions directory for uploading... 
+[info] i  functions: packaged D:\Dev Env\Admission-Portal\.firebase\mtu-admission-portal\functions (327.85 MB) for uploading 
+[debug] [2026-04-20T20:01:41.400Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:01:41.400Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:01:41.400Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v1/projects/mtu-admission-portal/locations/-/functions [none]
+[debug] [2026-04-20T20:01:42.468Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v1/projects/mtu-admission-portal/locations/-/functions 200
+[debug] [2026-04-20T20:01:42.469Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v1/projects/mtu-admission-portal/locations/-/functions {}
+[debug] [2026-04-20T20:01:42.469Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:01:42.469Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:01:42.474Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/mtu-admission-portal/locations/-/functions filter=environment%3D%22GEN_2%22
+[debug] [2026-04-20T20:01:44.371Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/mtu-admission-portal/locations/-/functions 200
+[debug] [2026-04-20T20:01:44.371Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/mtu-admission-portal/locations/-/functions {}
+[info] i  functions: ensuring required API run.googleapis.com is enabled... 
+[debug] [2026-04-20T20:01:44.374Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:01:44.375Z] Checked if tokens are valid: true, expires at: 1776718711544
+[info] i  functions: ensuring required API eventarc.googleapis.com is enabled... 
+[debug] [2026-04-20T20:01:44.375Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:01:44.375Z] Checked if tokens are valid: true, expires at: 1776718711544
+[info] i  functions: ensuring required API pubsub.googleapis.com is enabled... 
+[debug] [2026-04-20T20:01:44.376Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:01:44.376Z] Checked if tokens are valid: true, expires at: 1776718711544
+[info] i  functions: ensuring required API storage.googleapis.com is enabled... 
+[debug] [2026-04-20T20:01:44.376Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:01:44.376Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:01:44.376Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/593669896737/services/run.googleapis.com [none]
+[debug] [2026-04-20T20:01:44.376Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/593669896737/services/run.googleapis.com  x-goog-user-project=593669896737
+[debug] [2026-04-20T20:01:44.378Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/593669896737/services/eventarc.googleapis.com [none]
+[debug] [2026-04-20T20:01:44.378Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/593669896737/services/eventarc.googleapis.com  x-goog-user-project=593669896737
+[debug] [2026-04-20T20:01:44.379Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/593669896737/services/pubsub.googleapis.com [none]
+[debug] [2026-04-20T20:01:44.379Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/593669896737/services/pubsub.googleapis.com  x-goog-user-project=593669896737
+[debug] [2026-04-20T20:01:44.380Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/593669896737/services/storage.googleapis.com [none]
+[debug] [2026-04-20T20:01:44.380Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/593669896737/services/storage.googleapis.com  x-goog-user-project=593669896737
+[debug] [2026-04-20T20:01:46.313Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/593669896737/services/run.googleapis.com 200
+[debug] [2026-04-20T20:01:46.313Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/593669896737/services/run.googleapis.com [omitted]
+[warn] !  functions: missing required API run.googleapis.com. Enabling now... 
+[debug] [2026-04-20T20:01:46.314Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:01:46.314Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:01:46.314Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/593669896737/services/run.googleapis.com:enable [none]
+[debug] [2026-04-20T20:01:46.314Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/593669896737/services/run.googleapis.com:enable  x-goog-user-project=593669896737
+[debug] [2026-04-20T20:01:46.355Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/593669896737/services/storage.googleapis.com 200
+[debug] [2026-04-20T20:01:46.355Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/593669896737/services/storage.googleapis.com [omitted]
+[info] +  functions: required API storage.googleapis.com is enabled 
+[debug] [2026-04-20T20:01:46.379Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/593669896737/services/eventarc.googleapis.com 200
+[debug] [2026-04-20T20:01:46.379Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/593669896737/services/eventarc.googleapis.com [omitted]
+[warn] !  functions: missing required API eventarc.googleapis.com. Enabling now... 
+[debug] [2026-04-20T20:01:46.379Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:01:46.379Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:01:46.379Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/593669896737/services/eventarc.googleapis.com:enable [none]
+[debug] [2026-04-20T20:01:46.379Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/593669896737/services/eventarc.googleapis.com:enable  x-goog-user-project=593669896737
+[debug] [2026-04-20T20:01:46.384Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/593669896737/services/pubsub.googleapis.com 200
+[debug] [2026-04-20T20:01:46.384Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/593669896737/services/pubsub.googleapis.com [omitted]
+[info] +  functions: required API pubsub.googleapis.com is enabled 
+[debug] [2026-04-20T20:01:46.897Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/593669896737/services/run.googleapis.com:enable 200
+[debug] [2026-04-20T20:01:46.898Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/593669896737/services/run.googleapis.com:enable [omitted]
+[debug] [2026-04-20T20:01:48.160Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/593669896737/services/eventarc.googleapis.com:enable 200
+[debug] [2026-04-20T20:01:48.160Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/593669896737/services/eventarc.googleapis.com:enable [omitted]
+[info] i  functions: generating the service identity for pubsub.googleapis.com... 
+[debug] [2026-04-20T20:01:58.167Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:01:58.167Z] Checked if tokens are valid: true, expires at: 1776718711544
+[info] i  functions: generating the service identity for eventarc.googleapis.com... 
+[debug] [2026-04-20T20:01:58.167Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:01:58.167Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:01:58.167Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1beta1/projects/593669896737/services/pubsub.googleapis.com:generateServiceIdentity [none]
+[debug] [2026-04-20T20:01:58.167Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1beta1/projects/593669896737/services/pubsub.googleapis.com:generateServiceIdentity  x-goog-user-project=593669896737
+[debug] [2026-04-20T20:01:58.167Z] >>> [apiv2][body] POST https://serviceusage.googleapis.com/v1beta1/projects/593669896737/services/pubsub.googleapis.com:generateServiceIdentity {}
+[debug] [2026-04-20T20:01:58.169Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1beta1/projects/593669896737/services/eventarc.googleapis.com:generateServiceIdentity [none]
+[debug] [2026-04-20T20:01:58.169Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1beta1/projects/593669896737/services/eventarc.googleapis.com:generateServiceIdentity  x-goog-user-project=593669896737
+[debug] [2026-04-20T20:01:58.169Z] >>> [apiv2][body] POST https://serviceusage.googleapis.com/v1beta1/projects/593669896737/services/eventarc.googleapis.com:generateServiceIdentity {}
+[debug] [2026-04-20T20:02:00.227Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1beta1/projects/593669896737/services/pubsub.googleapis.com:generateServiceIdentity 200
+[debug] [2026-04-20T20:02:00.227Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1beta1/projects/593669896737/services/pubsub.googleapis.com:generateServiceIdentity {"name":"operations/finished.DONE_OPERATION","done":true,"response":{"@type":"type.googleapis.com/google.api.serviceusage.v1beta1.ServiceIdentity","email":"service-593669896737@gcp-sa-pubsub.iam.gserviceaccount.com","uniqueId":"112845209169628747587"}}
+[debug] [2026-04-20T20:02:00.802Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1beta1/projects/593669896737/services/eventarc.googleapis.com:generateServiceIdentity 200
+[debug] [2026-04-20T20:02:00.803Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1beta1/projects/593669896737/services/eventarc.googleapis.com:generateServiceIdentity {"name":"operations/finished.DONE_OPERATION","done":true,"response":{"@type":"type.googleapis.com/google.api.serviceusage.v1beta1.ServiceIdentity","email":"service-593669896737@gcp-sa-eventarc.iam.gserviceaccount.com","uniqueId":"102253080356806787270"}}
+[debug] [2026-04-20T20:02:00.806Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:02:00.806Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:02:00.806Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal [none]
+[debug] [2026-04-20T20:02:02.553Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal 200
+[debug] [2026-04-20T20:02:02.553Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal {"projectNumber":"593669896737","projectId":"mtu-admission-portal","lifecycleState":"ACTIVE","name":"mtu-admission-portal","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2026-04-17T11:04:48.422Z"}
+[debug] [2026-04-20T20:02:02.553Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:02:02.553Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:02:02.553Z] >>> [apiv2][query] GET https://compute.googleapis.com/compute/v1/projects/593669896737 [none]
+[debug] [2026-04-20T20:02:03.409Z] <<< [apiv2][status] GET https://compute.googleapis.com/compute/v1/projects/593669896737 200
+[debug] [2026-04-20T20:02:03.409Z] <<< [apiv2][body] GET https://compute.googleapis.com/compute/v1/projects/593669896737 {"kind":"compute#project","id":"2101409239083257596","creationTimestamp":"2026-04-19T21:48:20.102-07:00","name":"mtu-admission-portal","commonInstanceMetadata":{"kind":"compute#metadata","fingerprint":"oIZY5yQSSlc="},"quotas":[{"metric":"SNAPSHOTS","limit":1000,"usage":0},{"metric":"NETWORKS","limit":5,"usage":1},{"metric":"FIREWALLS","limit":100,"usage":4},{"metric":"IMAGES","limit":100,"usage":0},{"metric":"STATIC_ADDRESSES","limit":8,"usage":0},{"metric":"ROUTES","limit":200,"usage":0},{"metric":"FORWARDING_RULES","limit":15,"usage":0},{"metric":"TARGET_POOLS","limit":50,"usage":0},{"metric":"HEALTH_CHECKS","limit":75,"usage":0},{"metric":"IN_USE_ADDRESSES","limit":8,"usage":0},{"metric":"TARGET_INSTANCES","limit":50,"usage":0},{"metric":"TARGET_HTTP_PROXIES","limit":10,"usage":0},{"metric":"URL_MAPS","limit":10,"usage":0},{"metric":"BACKEND_SERVICES","limit":50,"usage":0},{"metric":"INSTANCE_TEMPLATES","limit":100,"usage":0},{"metric":"TARGET_VPN_GATEWAYS","limit":5,"usage":0},{"metric":"VPN_TUNNELS","limit":10,"usage":0},{"metric":"BACKEND_BUCKETS","limit":3,"usage":0},{"metric":"ROUTERS","limit":10,"usage":0},{"metric":"TARGET_SSL_PROXIES","limit":10,"usage":0},{"metric":"TARGET_HTTPS_PROXIES","limit":10,"usage":0},{"metric":"SSL_CERTIFICATES","limit":10,"usage":0},{"metric":"SUBNETWORKS","limit":100,"usage":0},{"metric":"TARGET_TCP_PROXIES","limit":10,"usage":0},{"metric":"CPUS_ALL_REGIONS","limit":32,"usage":0},{"metric":"SECURITY_POLICIES","limit":10,"usage":0},{"metric":"SECURITY_POLICY_RULES","limit":100,"usage":0},{"metric":"XPN_SERVICE_PROJECTS","limit":1000,"usage":0},{"metric":"PACKET_MIRRORINGS","limit":20,"usage":0},{"metric":"NETWORK_ENDPOINT_GROUPS","limit":100,"usage":0},{"metric":"INTERCONNECTS","limit":6,"usage":0},{"metric":"SSL_POLICIES","limit":10,"usage":0},{"metric":"GLOBAL_INTERNAL_ADDRESSES","limit":5000,"usage":0},{"metric":"VPN_GATEWAYS","limit":5,"usage":0},{"metric":"MACHINE_IMAGES","limit":100,"usage":0},{"metric":"SECURITY_POLICY_CEVAL_RULES","limit":20,"usage":0},{"metric":"GPUS_ALL_REGIONS","limit":0,"usage":0},{"metric":"EXTERNAL_VPN_GATEWAYS","limit":5,"usage":0},{"metric":"PUBLIC_ADVERTISED_PREFIXES","limit":1,"usage":0},{"metric":"PUBLIC_DELEGATED_PREFIXES","limit":10,"usage":0},{"metric":"STATIC_BYOIP_ADDRESSES","limit":128,"usage":0},{"metric":"NETWORK_FIREWALL_POLICIES","limit":10,"usage":0},{"metric":"INTERNAL_TRAFFIC_DIRECTOR_FORWARDING_RULES","limit":15,"usage":0},{"metric":"GLOBAL_EXTERNAL_MANAGED_FORWARDING_RULES","limit":15,"usage":0},{"metric":"GLOBAL_INTERNAL_MANAGED_BACKEND_SERVICES","limit":50,"usage":0},{"metric":"GLOBAL_EXTERNAL_MANAGED_BACKEND_SERVICES","limit":50,"usage":0},{"metric":"GLOBAL_EXTERNAL_PROXY_LB_BACKEND_SERVICES","limit":50,"usage":0},{"metric":"GLOBAL_INTERNAL_TRAFFIC_DIRECTOR_BACKEND_SERVICES","limit":250,"usage":0}],"selfLink":"https://www.googleapis.com/compute/v1/projects/mtu-admission-portal","defaultServiceAccount":"593669896737-compute@developer.gserviceaccount.com","xpnProjectStatus":"UNSPECIFIED_XPN_PROJECT_STATUS","defaultNetworkTier":"PREMIUM","vmDnsSetting":"ZONAL_ONLY","cloudArmorTier":"CA_STANDARD"}
+[debug] [2026-04-20T20:02:03.410Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:02:03.410Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:02:03.411Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/mtu-admission-portal/versions [none]
+[debug] [2026-04-20T20:02:03.411Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/mtu-admission-portal/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase","firebase-web-framework":"next_ssr"}}
+[debug] [2026-04-20T20:02:05.975Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/mtu-admission-portal/versions 200
+[debug] [2026-04-20T20:02:05.975Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/mtu-admission-portal/versions {"name":"projects/593669896737/sites/mtu-admission-portal/versions/935c4a4c09065d5e","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase","firebase-web-framework":"next_ssr"}}
+[debug] [2026-04-20T20:02:05.976Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:02:05.976Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:02:05.976Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/mtu-admission-portal/billingInfo [none]
+[debug] [2026-04-20T20:02:07.733Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/mtu-admission-portal/billingInfo 200
+[debug] [2026-04-20T20:02:07.733Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/mtu-admission-portal/billingInfo {"name":"projects/mtu-admission-portal/billingInfo","projectId":"mtu-admission-portal","billingAccountName":"billingAccounts/01B69E-C3D832-3177FC","billingEnabled":true}
+[debug] [2026-04-20T20:02:07.734Z] [functions] found 1 new HTTP functions, testing setIamPolicy permission...
+[debug] [2026-04-20T20:02:07.734Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:02:07.734Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:02:07.734Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal:testIamPermissions [none]
+[debug] [2026-04-20T20:02:07.735Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal:testIamPermissions  x-goog-user-project=mtu-admission-portal
+[debug] [2026-04-20T20:02:07.735Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal:testIamPermissions {"permissions":["cloudfunctions.functions.setIamPolicy"]}
+[debug] [2026-04-20T20:02:09.379Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal:testIamPermissions 200
+[debug] [2026-04-20T20:02:09.379Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/mtu-admission-portal:testIamPermissions {"permissions":["cloudfunctions.functions.setIamPolicy"]}
+[debug] [2026-04-20T20:02:09.379Z] [functions] found setIamPolicy permission, proceeding with deploy
+[debug] [2026-04-20T20:02:09.381Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:02:09.381Z] Checked if tokens are valid: true, expires at: 1776718711544
+[debug] [2026-04-20T20:02:09.381Z] >>> [apiv2][query] POST https://cloudfunctions.googleapis.com/v2/projects/mtu-admission-portal/locations/us-central1/functions:generateUploadUrl [none]
+[debug] [2026-04-20T20:02:11.746Z] <<< [apiv2][status] POST https://cloudfunctions.googleapis.com/v2/projects/mtu-admission-portal/locations/us-central1/functions:generateUploadUrl 200
+[debug] [2026-04-20T20:02:11.747Z] <<< [apiv2][body] POST https://cloudfunctions.googleapis.com/v2/projects/mtu-admission-portal/locations/us-central1/functions:generateUploadUrl {"uploadUrl":"https://storage.googleapis.com/gcf-v2-uploads-593669896737.us-central1.cloudfunctions.appspot.com/574812b8-feed-40c0-b04a-51ef98436161.zip?GoogleAccessId=service-593669896737@gcf-admin-robot.iam.gserviceaccount.com&Expires=1776717129&Signature=Fjp3B6LvFKqtAA8WHCzoc0QystN2VP%2BNn2hzyVD09ZFqy2bweKRTIQ3N4fEzCSfPutn2D1a8EExxOcsM88%2BUyjs3%2FyotWTX%2B%2FRflKgVs9oRJJo%2BLuonfZBTbjLrqu0mlHWMJhGnSI7A46mkIDI2uqd5xUwR79%2BjlKBKs6%2FGRFa0VEw1dG6IbCqPBF2nW9RDK5J4c7Aa38LYeqSj51OrRcknDu6lb6YWQEZuClh%2BDsVnNFVJRsZxLKCFQMMNLCFjieUFvY4oPglekFrsk3k9eW2LTPTjij66OERzkgx%2FKHBcfSO%2Bi8HIbzz37xwKDsXXt04rOjXz2JR23%2B2dvGgSwfA%3D%3D","storageSource":{"bucket":"gcf-v2-uploads-593669896737.us-central1.cloudfunctions.appspot.com","object":"574812b8-feed-40c0-b04a-51ef98436161.zip"}}
+[debug] [2026-04-20T20:02:11.805Z] >>> [apiv2][query] PUT https://storage.googleapis.com/gcf-v2-uploads-593669896737.us-central1.cloudfunctions.appspot.com/574812b8-feed-40c0-b04a-51ef98436161.zip GoogleAccessId=service-593669896737%40gcf-admin-robot.iam.gserviceaccount.com&Expires=1776717129&Signature=Fjp3B6LvFKqtAA8WHCzoc0QystN2VP%2BNn2hzyVD09ZFqy2bweKRTIQ3N4fEzCSfPutn2D1a8EExxOcsM88%2BUyjs3%2FyotWTX%2B%2FRflKgVs9oRJJo%2BLuonfZBTbjLrqu0mlHWMJhGnSI7A46mkIDI2uqd5xUwR79%2BjlKBKs6%2FGRFa0VEw1dG6IbCqPBF2nW9RDK5J4c7Aa38LYeqSj51OrRcknDu6lb6YWQEZuClh%2BDsVnNFVJRsZxLKCFQMMNLCFjieUFvY4oPglekFrsk3k9eW2LTPTjij66OERzkgx%2FKHBcfSO%2Bi8HIbzz37xwKDsXXt04rOjXz2JR23%2B2dvGgSwfA%3D%3D
+[debug] [2026-04-20T20:02:11.805Z] >>> [apiv2][body] PUT https://storage.googleapis.com/gcf-v2-uploads-593669896737.us-central1.cloudfunctions.appspot.com/574812b8-feed-40c0-b04a-51ef98436161.zip [stream]
